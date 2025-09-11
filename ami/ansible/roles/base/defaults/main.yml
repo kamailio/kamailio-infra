@@ -1,0 +1,36 @@
+---
+base_hostname: "{{ inventory_hostname|lower }}"
+base_backports: false
+base_backports_additional_components: []
+base_packages:
+  - psmisc
+  - vim
+  - vim-airline
+  - vim-airline-themes
+  - lnav
+  - zsh
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
+  - zsh-theme-powerlevel9k
+  - gpg
+  - dirmngr
+  - gpg-agent
+  - tmux
+  - tmux-themepack-jimeh
+  - git
+  - fzf
+base_extra_packages: []
+default_tmpdir: /tmp
+base_user:
+  name: "{{ ansible_user }}"
+  email: linuxmaniac@torreviejawireless.org
+  debian:
+    email: vseva@debian.org
+    full_name: Victor Seva
+  sshkeys: https://github.com/linuxmaniac.keys
+  shell: /bin/zsh
+  tmpdir: /tmp
+base_security_ssh_allowed_users:
+  - "{{ base_user.name }}"
+base_security_sudoers_passwordless:
+  - "{{ base_user.name }}"

@@ -1,0 +1,11 @@
+- name: master
+  hosts: jenkins_master
+  gather_facts: true
+  roles:
+    - { role: base }
+
+- name: slaves
+  hosts: jenkins_slaves
+  gather_facts: true
+  roles:
+    - { role: base }

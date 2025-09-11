@@ -1,0 +1,30 @@
+---
+# Requirements for Ansible Roles
+#
+# More info:
+#   Using Roles - https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html
+#   Galaxy User Guide - https://docs.ansible.com/ansible/latest/galaxy/user_guide.html
+#   Use the `scm` key for repos that do not exist in ansible-galaxy.com!
+#   Use the `include` directive to split a large file into multiple smaller files
+#   https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-multiple-roles-from-multiple-files
+
+roles:
+- name: geerlingguy.git
+  version: "3.0.1"
+- name: geerlingguy.security
+  version: "3.0.0"
+- name: ctorgalson.oh-my-zsh
+  version: "v2.3.1"
+- name: geerlingguy.java
+  version: "2.5.0"
+- name: geerlingguy.jenkins
+  version: "5.3.0"
+
+- name: jenkins-master
+  src: git@git.torreviejawireless.org:linuxmaniac/ansible-jenkins-master-role.git
+  version: main
+  scm: git
+- name: jenkins-slave
+  src: git@git.torreviejawireless.org:linuxmaniac/ansible-jenkins-slave-role.git
+  version: main
+  scm: git

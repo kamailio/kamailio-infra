@@ -1,0 +1,11 @@
+---
+jenkins_slave_base_user:
+  name: admin
+  email: vseva@sipwork.pro
+  debian:
+    email: vseva@debian.org
+    full_name: Victor Seva
+  shell: /bin/zsh
+  sshkeys: https://github.com/linuxmaniac.keys
+  gpgkey: 8F19CADCD42A42D45563730C51A09B18CF5A5068
+  tmpdir: /tmp

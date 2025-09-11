@@ -1,0 +1,41 @@
+---
+# Ansible Role Metadata
+# For complete information about all available options:
+# https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
+
+dependencies:
+  - role: geerlingguy.git
+    become: true
+  - role: geerlingguy.security
+    vars:
+      security_ssh_allowed_users: "{{ base_security_ssh_allowed_users }}"
+      security_sudoers_passwordless: "{{ base_security_sudoers_passwordless }}"
+    become: true
+  - role: ctorgalson.oh-my-zsh
+    vars:
+      omz_install_zsh: true
+      omz_zshrc_template: "templates/zshrc.j2"
+      omz_user:
+        name: "{{ base_user.name }}"
+        group: "{{ base_user.name }}"
+        settings:
+      omz_zsh_theme: "powerlevel9k/powerlevel9k"
+      omz_plugins:
+        - git
+        - gitfast
+        - gpg-agent
+        - tmux
+        - fzf
+    become: true
+
+galaxy_info:
+  author: Victor Seva
+  description: base role for my own use
+  license: GPLv3
+
+  min_ansible_version: 2.11
+  galaxy_tags: []
+  platforms:
+    - name: Debian
+      versions:
+        - all

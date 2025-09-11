@@ -1,0 +1,90 @@
+---
+- name: base user
+  ansible.builtin.user:
+    name: "{{ base_user.name }}"
+    shell: "{{ base_user.shell }}"
+    state: present
+  register: base_user_info
+  become: yes
+
+- name: store base_user_info as fact
+  ansible.builtin.set_fact:
+    base_user_info: "{{ base_user_info }}"
+
+- name: Download tmux.conf
+  ansible.builtin.get_url:
+    url: "{{ gh_base }}/.tmux.conf"
+    dest: "{{ homedir }}/.tmux.conf"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0640'
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: Download bash_aliases
+  ansible.builtin.get_url:
+    url: "{{ gh_base }}/.bash_aliases"
+    dest: "{{ homedir }}/.oh-my-zsh/custom/aliases.zsh"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0640'
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: Download vimrc
+  ansible.builtin.get_url:
+    url: "{{ gh_base }}/.vimrc"
+    dest: "{{ homedir }}/.vimrc"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0640'
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: powerlevel9k link
+  ansible.builtin.file:
+    src: /usr/share/powerlevel9k
+    dest: "{{ homedir }}/.oh-my-zsh/themes/powerlevel9k"
+    state: link
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: ssh dir
+  ansible.builtin.file:
+    path: "{{ homedir }}/.ssh"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0750'
+    state: directory
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: Download authorized_keys
+  ansible.builtin.get_url:
+    url: "{{ base_user.sshkeys }}"
+    dest: "{{ homedir }}/.ssh/authorized_keys"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0640'
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: debian.zsh
+  ansible.builtin.template:
+    src: debian.zsh.j2
+    dest: "{{ homedir }}/.oh-my-zsh/custom/debian.zsh"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0644'
+  vars:
+    homedir: "{{ base_user_info.home }}"
+
+- name: gitconfig
+  ansible.builtin.template:
+    src: gitconfig.j2
+    dest: "{{ homedir }}/.gitconfig"
+    owner: "{{ base_user.name }}"
+    group: "{{ base_user.name }}"
+    mode: '0644'
+  vars:
+    homedir: "{{ base_user_info.home }}"
