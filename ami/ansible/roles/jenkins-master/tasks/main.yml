@@ -1,0 +1,28 @@
+---
+- name: jenkins home
+  ansible.builtin.file:
+    path: "{{ jenkins_master_home }}"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: generate jenkins keypair
+  community.crypto.openssh_keypair:
+    path: "{{ jenkins_master_home }}/id_ssh_rsa"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+  become: true
+
+- name: config-as-code configs
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ jenkins_master_home }}/{{ item }}"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    mode: '0640'
+  loop:
+    - jenkins.yaml
+  become: true
+  #notify: restart jenkins

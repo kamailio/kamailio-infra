@@ -1,11 +1,19 @@
+- name: common tasks
+  hosts: all
+  tasks:
+    - name: update chache
+      ansible.builtin.apt:
+        update_cache: yes
+      become: true
+
 - name: master
   hosts: jenkins_master
   gather_facts: true
   roles:
-    - { role: base }
+    - { role: jenkins-master }
 
 - name: slaves
   hosts: jenkins_slaves
   gather_facts: true
   roles:
-    - { role: base }
+    - { role: jenkins-slave }

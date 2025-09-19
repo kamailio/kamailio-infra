@@ -39,11 +39,17 @@ terraform.rc
 # Terragrunt
 .terragrunt-cache
 
-# ignore non-local ansible/roles
+# ignore ansible/roles
 ami/ansible/roles/*
-!ami/ansible/roles/base
+# don't ignore requirements
 !ami/ansible/roles/requirements.yml
+# don't ignore local roles
+!ami/ansible/roles/jenkins-master
+!ami/ansible/roles/jenkins-slave
 
 # ignore collections
 ami/ansible/collections/*
 !ami/ansible/collections/requirements.yml
+
+# ignore all secrets
+*.secret.yml

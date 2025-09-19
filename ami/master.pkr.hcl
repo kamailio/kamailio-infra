@@ -22,7 +22,7 @@ variable "region" {
 }
 
 source "amazon-ebs" "debian" {
-  ami_name      = "kamailio-infra-slave-{{timestamp}}"
+  ami_name      = "kamailio-infra-master-{{timestamp}}"
   instance_type = "t2.micro"
   region        = var.region
   source_ami_filter {
@@ -48,7 +48,7 @@ build {
     roles_path          = "ansible/roles"
     collections_path    = "ansible/collections"
     inventory_directory = "ansible/inventory_${var.environment}"
-    groups              = ["jenkins_slaves"]
+    groups              = ["jenkins_master"]
     ansible_env_vars    = ["ANSIBLE_CONFIG=ansible/ansible.cfg"]
     extra_arguments     = ["--extra-vars", "\"environment=${var.environment}\""]
     # debugging

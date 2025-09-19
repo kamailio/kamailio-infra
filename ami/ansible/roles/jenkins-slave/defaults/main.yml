@@ -1,0 +1,20 @@
+---
+jenkins_slave_base_user:
+  name: admin
+  email: linuxmaniac@torreviejawireless.org
+  debian:
+    email: vseva@debian.org
+    full_name: Victor Seva
+  shell: /bin/zsh
+  sshkeys: https://github.com/linuxmaniac.keys
+  gpgkey: 8F19CADCD42A42D45563730C51A09B18CF5A5068
+  tmpdir: /tmp
+jenkins_slave_home: /var/lib/jenkins
+jenkins_slave_username: jenkins
+jenkins_slave_group: "{{ jenkins_slave_username }}"
+jenkins_hostname: ~
+# content of {{ jenkins_master_home}}/id_ssh_rsa.pub
+jenkins_slave_ssh_pub: ~
+jenkins_slave_sudoers:
+  - "{{ jenkins_slave_base_user.name }}"
+  - "{{ jenkins_slave_username }}"

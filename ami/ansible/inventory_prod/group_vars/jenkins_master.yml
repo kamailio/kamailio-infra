@@ -1,0 +1,60 @@
+---
+jenkins_admin_password: MkDxQ0~mj}<790JX
+jenkins_master_kamailio_keyid: 88C55A7D111EA0A4FCAF53EA49498057E24E5886
+jenkins_master_admin_address: "<vseva@sipwork.pro>"
+jenkins_master_executors: 5
+jenkins_master_labels:
+  - 'slave:bookworm'
+  - 'slave:bullseye'
+  - 'slave:noble'
+  - 'slave:jammy'
+jenkins_master_nodes:
+  - name: pve-slave0
+    host: jenkins-slave0.lab
+    labels:
+      - 'slave:bookworm'
+      - 'slave:bullseye'
+      - 'slave:noble'
+      - 'slave:jammy'
+    executors: 2
+  - name: pve-slave1
+    host: jenkins-slave1.lab
+    labels:
+      - 'slave:bookworm'
+      - 'slave:bullseye'
+      - 'slave:noble'
+      - 'slave:jammy'
+    executors: 2
+  - name: pve-slave2
+    host: jenkins-slave2.lab
+    labels:
+      - 'slave:bookworm'
+      - 'slave:bullseye'
+      - 'slave:noble'
+      - 'slave:jammy'
+    executors: 2
+jenkins_master_extra_plugins:
+  - name: workflow-aggregator
+    version: 608.v67378e9d3db_1
+  - workflow-multibranch
+  - pipeline-groovy-lib
+  - workflow-basic-steps
+  - pipeline-input-step
+  - pipeline-model-definition
+  - workflow-job
+  - workflow-cps
+  - workflow-durable-task-step
+  - pipeline-build-step
+  - pipeline-milestone-step
+  - pipeline-stage-step
+  - name: copyartifact
+    version: 770.va_6c69e063442
+  - apache-httpcomponents-client-4-api
+  - name: git
+    version: 5.7.0
+  - name: git-client
+    version: 6.1.3
+  - mina-sshd-api-common
+  - mina-sshd-api-core
+  - email-ext
+  - build-name-setter

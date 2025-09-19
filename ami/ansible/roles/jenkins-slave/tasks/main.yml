@@ -1,0 +1,30 @@
+---
+- name: jenkins user
+  ansible.builtin.user:
+    name: "{{ jenkins_slave_username }}"
+    uid: 2000
+    home: "{{ jenkins_slave_home }}"
+    append: true
+    groups:
+      - sudo
+    state: present
+  register: jenkins_user_info
+  become: yes
+
+- name: ssh jenkins dir
+  ansible.builtin.file:
+    path: "{{ jenkins_slave_home }}/.ssh"
+    owner: "{{ jenkins_slave_username }}"
+    group: "{{ jenkins_slave_group }}"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: autorized_keys file
+  ansible.builtin.copy:
+    content: "{{ jenkins_slave_ssh_pub }}"
+    dest: "{{ jenkins_slave_home }}/.ssh/authorized_keys"
+    owner: "{{ jenkins_slave_username }}"
+    group: "{{ jenkins_slave_group }}"
+    mode: '0644'
+  become: true

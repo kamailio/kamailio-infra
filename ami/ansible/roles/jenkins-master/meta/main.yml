@@ -1,0 +1,30 @@
+---
+# Ansible Role Metadata
+# For complete information about all available options:
+# https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
+
+dependencies:
+  - role: geerlingguy.java
+    become: true
+  - role: geerlingguy.jenkins
+    vars:
+      jenkins_home: "{{ jenkins_master_home }}"
+      jenkins_admin_username: "{{ jenkins_master_admin_username }}"
+      jenkins_admin_password: "{{ jenkins_master_admin_password }}"
+      jenkins_admin_password_file: /var/lib/jenkins/secrets/initialAdminPassword
+      jenkins_process_user: "{{ jenkins_master_process_user }}"
+      jenkins_process_group: "{{ jenkins_master_process_group }}"
+      jenkins_plugins: "{{ jenkins_master_plugins + jenkins_master_extra_plugins }}"
+    become: true
+
+galaxy_info:
+  author: Victor Seva
+  description: jenkins master role for my own use
+  license: GPLv3
+
+  min_ansible_version: 2.11
+  galaxy_tags: []
+  platforms:
+    - name: Debian
+      versions:
+        - all

@@ -1,0 +1,14 @@
+---
+jenkins_master_home: /var/lib/jenkins
+jenkins_master_process_user: jenkins
+jenkins_master_process_group: "{{ jenkins_master_process_user }}"
+jenkins_master_admin_username: admin
+jenkins_master_admin_password: admin
+jenkins_master_admin_address: "address not configured yet <nobody@nowhere>"
+jenkins_master_executors: 2
+jenkins_master_nodes: []
+jenkins_master_plugins:
+  - configuration-as-code
+  - ec2
+jenkins_master_extra_plugins: []
+jenkins_master_labels: []
