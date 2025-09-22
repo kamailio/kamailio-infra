@@ -39,6 +39,9 @@ terraform.rc
 # Terragrunt
 .terragrunt-cache
 
+# ignore pre-commit ansible-lint
+.ansible
+
 # ignore ansible/roles
 ami/ansible/roles/*
 # don't ignore requirements

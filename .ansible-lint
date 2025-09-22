@@ -1,0 +1,25 @@
+# Ansible-lint configuration file
+#
+# References:
+#
+# * Configuration - Ansible Lint Documentation
+#   https://ansible.readthedocs.io/projects/lint/configuring/
+#
+# Copyright 2024 林博仁(Buo-ren Lin) <buo.ren.lin@gmail.com>
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+# Profiles - Ansible Lint Documentation
+# https://ansible.readthedocs.io/projects/lint/profiles/
+profile: production
+
+exclude_paths:
+  # Implicit unless exclude_paths is defined in config
+  - .cache/
+
+  # Don't check external Ansible resources
+  - ami/ansible/roles/geerlingguy.*/
+  - ami/ansible/collections/*/
+
+skip_list:
+  # FALSE_POSITIVE: The proposed style isn't better than name-rescue-block
+  - key-order[task]
