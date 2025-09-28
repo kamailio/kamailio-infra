@@ -12,7 +12,7 @@ jenkins_slave_base_user:
 jenkins_slave_home: /var/lib/jenkins
 jenkins_slave_username: jenkins
 jenkins_slave_group: "{{ jenkins_slave_username }}"
-jenkins_slave_hostname: "{{ jenkins_hostname| default('') }}"
+jenkins_slave_hostname: "{{ jenkins_hostname | default('') }}"
 # content of {{ jenkins_master_home}}/id_ssh_rsa.pub
 jenkins_slave_ssh_pub: ~
 jenkins_slave_sudoers:
