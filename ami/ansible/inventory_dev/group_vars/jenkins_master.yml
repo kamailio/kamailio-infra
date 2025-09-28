@@ -1,3 +1,10 @@
 ---
 jenkins_master_admin_address: "<vseva@sipwork.pro>"
 jenkins_master_executors: 5
+jenkins_master_plugins_extra:
+  - name: workflow-aggregator
+  - name: git
+  - name: copyartifact
+  - name: parameterized-trigger
+  - name: build-name-setter
+  - name: email-ext

@@ -7,11 +7,13 @@ jenkins_master_admin_password: admin
 jenkins_master_admin_address: "address not configured yet <nobody@nowhere>"
 jenkins_master_executors: 2
 jenkins_master_nodes: []
-jenkins_master_plugins:
+jenkins_master_plugins_default:
   - name: configuration-as-code
     version: latest
   - name: ec2
     version: latest
+jenkins_master_plugins_extra: []
+jenkins_master_plugins: "{{ jenkins_master_plugins_default | community.general.lists_mergeby(jenkins_master_plugins_extra, 'name') }}"
 jenkins_master_labels: []
 jenkins_master_plugin_imt_version: 2.13.2
 jenkins_master_plugin_imt_url: "{{ jenkins_master_plugin_imt_base }}/releases/download/{{ jenkins_master_plugin_imt_version }}/jenkins-plugin-manager-{{ jenkins_master_plugin_imt_version }}.jar"
