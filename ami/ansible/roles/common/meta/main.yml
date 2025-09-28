@@ -3,15 +3,12 @@
 # For complete information about all available options:
 # https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
 
-dependencies:
-  - role: common
-  - role: geerlingguy.java
-    become: true
+dependencies: []
 
 galaxy_info:
-  role_name: jenkins_slave
+  role_name: common
   author: Victor Seva
-  description: jenkins slave role for my own use
+  description: common role for kamailio-infra
   license: GPLv3
 
   min_ansible_version: "2.11"

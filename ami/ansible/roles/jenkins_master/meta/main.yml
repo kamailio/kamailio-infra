@@ -4,6 +4,7 @@
 # https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
 
 dependencies:
+  - role: common
   - role: geerlingguy.java
     become: true
   - role: geerlingguy.jenkins

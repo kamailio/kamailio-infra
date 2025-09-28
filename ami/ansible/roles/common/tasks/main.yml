@@ -1,0 +1,5 @@
+---
+- name: kamailio-deb-jenkins checkout
+  ansible.builtin.git: # noqa: git-latest partial-become
+    repo: "{{ common_kamailio_deb_jenkins_repo }}"
+    dest: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins"

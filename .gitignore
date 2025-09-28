@@ -47,6 +47,7 @@ ami/ansible/roles/*
 # don't ignore requirements
 !ami/ansible/roles/requirements.yml
 # don't ignore local roles
+!ami/ansible/roles/common
 !ami/ansible/roles/jenkins_master
 !ami/ansible/roles/jenkins_slave
 
