@@ -30,14 +30,20 @@
     mode: '0644'
   become: true
 
+- name: apt-get upgrade
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: yes
+  become: true
+
 - name: ensure packages are installed
   ansible.builtin.apt:
     name: "{{ package }}"
     state: latest
-  loop: "{{ jenkins_slave_pkgs }}"
+  loop: "{{ jenkins_slave_pkgs + jenkins_slave_pkgs_extra }}"
   loop_control:
     loop_var: package
-  become: yes
+  become: true
 
 - name: sudoers cfg for pbuilder
   ansible.builtin.copy:
@@ -102,6 +108,7 @@
   become: true
 
 - name: prepare cowbuilder for "{{ jenkins_slave_arch }}"
-  ansible.builtin.command: "{{ jenkins_slave_home }}/prepare_cowbuilder.sh {{ jenkins_slave_distri }} {{ jenkins_slave_arch }}"
+  ansible.builtin.command: "{{ jenkins_slave_home }}/prepare_cowbuilder.sh {{ item }} {{ jenkins_slave_arch }}"
   changed_when: true
+  loop: "{{ jenkins_slave_distris }}"
   become: true

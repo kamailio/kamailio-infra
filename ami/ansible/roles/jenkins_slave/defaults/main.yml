@@ -7,6 +7,15 @@ jenkins_slave_hostname: "{{ jenkins_hostname | default('') }}"
 jenkins_slave_ssh_pub: ~
 jenkins_slave_pkgs:
   - sudo
+  - facter
+  - eatmydata
   - jenkins-debian-glue
   - jenkins-debian-glue-buildenv
-jenkins_slave_distri: trixie
+  - ubuntu-archive-keyring
+  - zstd
+jenkins_slave_pkgs_extra:
+  - vim
+  - tmux
+  - zsh
+jenkins_slave_distris:
+  - trixie

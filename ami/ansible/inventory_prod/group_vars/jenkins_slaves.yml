@@ -1,1 +1,11 @@
 ---
+jenkins_slave_distris:
+  - bionic
+  - bookworm
+  - bullseye
+  - focal
+  - jammy
+  - noble
+  - trixie
+  - trusty
+  - xenial
