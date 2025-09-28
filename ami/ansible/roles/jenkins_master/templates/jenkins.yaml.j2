@@ -1,6 +1,8 @@
 configuration-as-code: {
   }
 credentials:
+  folder: {
+    }
   providerImpl: {
     }
   system:
@@ -51,6 +53,9 @@ jenkins:
       - id: "admin"
         name: "admin"
         properties:
+        - "mailer"
+        - preferredProvider:
+            providerId: "default"
         - "apiToken"
         - "consoleUrlProvider"
         - "viewsTabBar"
@@ -81,13 +86,32 @@ security:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  apiTokenProperty: {
+    }
+  copyartifact:
+    mode: PRODUCTION
+  cps:
+    hideSandbox: false
   crumb: {
     }
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   prism: {
     }
   queueItemAuthenticator: {
     }
   scriptApproval:
+{% if jenkins_master_scriptapproval_approvedscripthashes|length > 0 %}
+    approvedScriptHashes:
+{%  for item in jenkins_master_scriptapproval_approvedscripthashes %}
+    - {{ item }}
+{%  endfor %}
+{% else %}
+    approvedScriptHashes: []
+{% endif %}
     forceSandbox: false
   updateSiteWarningsConfiguration: {
     }
@@ -105,8 +129,31 @@ unclassified:
     }
   computerRetentionCheckInterval: {
     }
+  defaultDisplayUrlProvider: {
+    }
+  defaultFolderConfiguration: {
+    }
   defaultView: {
     }
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    mailAccount: {
+      }
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    throttlingEnabled: false
+    watchingEnabled: false
   envVarsFilter: {
     }
   fingerprints:
@@ -114,8 +161,18 @@ unclassified:
     storage: "file"
   globalDefaultFlowDurabilityLevel: {
     }
+  globalLibraries: {
+    }
+  globalUntrustedLibraries: {
+    }
+  junitTestResultStorage:
+    storage: "file"
   location:
     adminAddress: "{{ jenkins_master_admin_address }}"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
   myView: {
     }
   nodeProperties: {
@@ -132,15 +189,29 @@ unclassified:
     }
   resourceRoot: {
     }
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
   scmRetryCount: {
     }
   shell: {
     }
+  upstream:
+    globalUpstreamFilterStrategy: UseOldest
   usageStatistics: {
     }
   viewsTabBar: {
     }
 tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"

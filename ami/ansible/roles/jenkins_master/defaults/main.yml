@@ -26,3 +26,4 @@ jenkins_master_plugins: "{{ jenkins_master_plugins_default | community.general.l
 jenkins_master_labels: []
 jenkins_master_plugin_imt_version: 2.13.2
 jenkins_master_plugin_imt_url: "{{ __jenkins_master_plugin_imt_base }}/releases/download/{{ jenkins_master_plugin_imt_version }}/jenkins-plugin-manager-{{ jenkins_master_plugin_imt_version }}.jar"
+jenkins_master_scriptapproval_approvedscripthashes: []
