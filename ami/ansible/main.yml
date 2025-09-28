@@ -10,10 +10,10 @@
   hosts: jenkins_master
   gather_facts: true
   roles:
-    - { role: jenkins-master }
+    - { role: jenkins_master }
 
 - name: slaves
   hosts: jenkins_slaves
   gather_facts: true
   roles:
-    - { role: jenkins-slave }
+    - { role: jenkins_slave }

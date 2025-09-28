@@ -8,7 +8,7 @@
     groups:
       - sudo
     state: present
-  register: jenkins_user_info
+  register: jenkins_slave_user_info
   become: yes
 
 - name: ssh jenkins dir

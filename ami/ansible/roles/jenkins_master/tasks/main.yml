@@ -13,10 +13,20 @@
     path: "{{ jenkins_master_home }}/id_ssh_rsa"
     owner: "{{ jenkins_master_process_user }}"
     group: "{{ jenkins_master_process_group }}"
-  register: keypair
+  register: jenkins_master_keypair
   become: true
 
 # TODO set_fact and use it in template
+
+- name: download plugin-installation-manager-tool
+  ansible.builtin.get_url:
+    url: "{{ jenkins_master_plugin_imt_url }}"
+    checksum: "sha256:{{ jenkins_master_plugin_imt_url }}.sha256"
+    dest: "{{ jenkins_master_home }}/jenkins-plugin-manager.jar"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    mode: '0440'
+  become: true
 
 - name: plugins and config-as-code configs
   ansible.builtin.template:
@@ -28,25 +38,7 @@
   loop:
     - plugins.yaml
     - jenkins.yaml
-  become: true
-
-- name: manage plugins
-  block:
-    - name: download plugin-installation-manager-tool
-      ansible.builtin.get_url:
-        url: "{{ jenkins_master_plugin_imt_url }}"
-        checksum: "sha256:{{ jenkins_master_plugin_imt_url }}.sha256"
-        dest: "{{ jenkins_master_home }}/jenkins-plugin-manager.jar"
-        owner: "{{ jenkins_master_process_user }}"
-        group: "{{ jenkins_master_process_group }}"
-        mode: '0440'
-
-    - name: install plugins
-      ansible.builtin.shell: |
-        java -jar jenkins-plugin-manager.jar \
-          --plugin-download-directory={{jenkins_master_home }}/plugins/ \
-          --plugin-file={{ jenkins_master_home }}/plugins.yaml
-      args:
-        chdir: "{{ jenkins_master_home }}"
-      notify: restart jenkins
+  notify:
+    - install plugins
+    - restart jenkins
   become: true

@@ -1,0 +1,7 @@
+---
+- name: install plugins
+  ansible.builtin.command: "java -jar jenkins-plugin-manager.jar --plugin-download-directory={{ jenkins_master_home }}/plugins/ --plugin-file={{ jenkins_master_home }}/plugins.yaml"
+  args:
+    chdir: "{{ jenkins_master_home }}"
+    creates: "{{ jenkins_master_home }}/plugins"
+  notify: restart jenkins

@@ -9,7 +9,6 @@
 #   https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-multiple-roles-from-multiple-files
 
 collections:
-
-- name: community.general
-- name: community.crypto
-- name: community.sops
+  - name: community.general
+  - name: community.crypto
+  - name: community.sops
