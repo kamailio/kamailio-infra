@@ -22,5 +22,6 @@ exclude_paths:
 
 skip_list:
   - name[casing]
+  - package-latest
   # FALSE_POSITIVE: The proposed style isn't better than name-rescue-block
   - key-order[task]

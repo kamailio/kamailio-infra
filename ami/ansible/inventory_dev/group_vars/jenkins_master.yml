@@ -8,3 +8,4 @@ jenkins_master_plugins_extra:
   - name: parameterized-trigger
   - name: build-name-setter
   - name: email-ext
+  - name: ssh-agent

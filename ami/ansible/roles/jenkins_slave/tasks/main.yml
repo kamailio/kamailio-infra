@@ -7,6 +7,7 @@
     append: true
     groups:
       - sudo
+      - "{{ jenkins_slave_group }}"
     state: present
   register: jenkins_slave_user_info
   become: yes
@@ -27,4 +28,80 @@
     owner: "{{ jenkins_slave_username }}"
     group: "{{ jenkins_slave_group }}"
     mode: '0644'
+  become: true
+
+- name: ensure packages are installed
+  ansible.builtin.apt:
+    name: "{{ package }}"
+    state: latest
+  loop: "{{ jenkins_slave_pkgs }}"
+  loop_control:
+    loop_var: package
+  become: yes
+
+- name: sudoers cfg for pbuilder
+  ansible.builtin.copy:
+    src: sudoers.d/pbuilder
+    dest: /etc/sudoers.d/pbuilder
+    owner: root
+    group: root
+    mode: '0440'
+  become: true
+
+- name: pbuilderrc
+  ansible.builtin.copy:
+    src: pbuilderrc
+    dest: /etc/jenkins/pbuilderrc
+    owner: root
+    group: root
+    mode: '0440'
+  become: true
+
+- name: debian_glue
+  ansible.builtin.replace:
+    path: /etc/jenkins/debian_glue
+    regexp: '^# PBUILDER_CONFIG='
+    replace: PBUILDER_CONFIG=/etc/jenkins/pbuilderrc
+  become: true
+
+- name: debootstrap links
+  ansible.builtin.file:
+    path: "/usr/share/debootstrap/scripts/{{ item.dst }}"
+    src: "{{ item.src }}"
+    state: link
+  loop:
+    - dst: noble
+      src: gutsy
+    - dst: jammy
+      src: gutsy
+    - dst: focal
+      src: gutsy
+    - dst: bionic
+      src: gutsy
+    - dst: xenial
+      src: gutsy
+    - dst: bullseye
+      src: sid
+    - dst: bookworm
+      src: sid
+    - dst: trixie
+      src: sid
+  become: true
+
+- name: store arch as fact
+  ansible.builtin.set_fact:
+    jenkins_slave_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ('arm64' if ansible_architecture == 'aarch64' else ansible_architecture) }}"
+
+- name: prepare cowbuilder script
+  ansible.builtin.copy:
+    src: prepare_cowbuilder.sh
+    dest: "{{ jenkins_slave_home }}/prepare_cowbuilder.sh"
+    owner: root
+    group: root
+    mode: '0540'
+  become: true
+
+- name: prepare cowbuilder for "{{ jenkins_slave_arch }}"
+  ansible.builtin.command: "{{ jenkins_slave_home }}/prepare_cowbuilder.sh {{ jenkins_slave_distri }} {{ jenkins_slave_arch }}"
+  changed_when: true
   become: true
