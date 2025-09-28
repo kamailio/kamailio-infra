@@ -8,6 +8,7 @@ jenkins_slave_ssh_pub: ~
 jenkins_slave_pkgs:
   - sudo
   - facter
+  - git
   - eatmydata
   - jenkins-debian-glue
   - jenkins-debian-glue-buildenv
