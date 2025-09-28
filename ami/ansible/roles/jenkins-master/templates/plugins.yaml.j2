@@ -1,0 +1,7 @@
+---
+plugins:
+{% for item in jenkins_master_plugins %}
+  - artifactId: {{ item.name }}
+    source:
+      version: {{ item.version|default('latest') }}
+{% endfor %}

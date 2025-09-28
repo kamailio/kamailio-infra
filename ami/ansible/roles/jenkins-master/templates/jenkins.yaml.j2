@@ -1,3 +1,14 @@
+configuration-as-code: {
+  }
+credentials:
+  providerImpl: {
+    }
+  system:
+    domainCredentials:
+    - domain: {
+        }
+  user: {
+    }
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
@@ -7,20 +18,22 @@ jenkins:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
   labelAtoms:
-    - name: "built-in"
+  - name: "built-in"
+  log: {
+    }
   markupFormatter: "plainText"
   mode: NORMAL
   nodeMonitors:
-    - "architecture"
-    - "clock"
-    - diskSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "swapSpace"
-    - tmpSpace:
-        freeSpaceThreshold: "1GiB"
-        freeSpaceWarningThreshold: "2GiB"
-    - "responseTime"
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
   numExecutors: {{ jenkins_master_executors }}
   primaryView:
     all:
@@ -35,30 +48,32 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-        - id: "admin"
-          name: "admin"
-          properties:
-            - "viewsTabBar"
-            - "apiToken"
-            - "consoleUrlProvider"
-            - myView:
-              viewsTabBar: "standard"
-            - "timezone"
-            - "experimentalFlags"
+      - id: "admin"
+        name: "admin"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "viewsTabBar"
+        - myView:
+            viewsTabBar: "standard"
+        - "timezone"
+        - "experimentalFlags"
   slaveAgentPort: -1
   updateCenter:
     sites:
-      - id: "default"
-        url: "https://updates.jenkins.io/update-center.json"
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
   views:
-    - all:
-        name: "all"
+  - all:
+      name: "all"
   viewsTabBar: "standard"
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
 appearance:
+  consoleUrlProvider: {
+    }
   prism:
     theme: PRISM
 security:
@@ -66,19 +81,65 @@ security:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  crumb: {
+    }
+  prism: {
+    }
+  queueItemAuthenticator: {
+    }
   scriptApproval:
     forceSandbox: false
+  updateSiteWarningsConfiguration: {
+    }
 unclassified:
+  administrativeMonitorsConfiguration: {
+    }
+  artifactManager: {
+    }
   buildDiscarders:
     configuredBuildDiscarders:
-      - "jobBuildDiscarder"
+    - "jobBuildDiscarder"
+  builtInNode: {
+    }
+  casCGlobalConfig: {
+    }
+  computerRetentionCheckInterval: {
+    }
+  defaultView: {
+    }
+  envVarsFilter: {
+    }
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
+  globalDefaultFlowDurabilityLevel: {
+    }
   location:
     adminAddress: "{{ jenkins_master_admin_address }}"
+  myView: {
+    }
+  nodeProperties: {
+    }
+  plugin: {
+    }
   pollSCM:
     pollingThreadCount: 10
+  projectNamingStrategy: {
+    }
+  proxyConfigurationManager: {
+    }
+  quietPeriod: {
+    }
+  resourceRoot: {
+    }
+  scmRetryCount: {
+    }
+  shell: {
+    }
+  usageStatistics: {
+    }
+  viewsTabBar: {
+    }
 tool:
   mavenGlobalConfig:
     globalSettingsProvider: "standard"

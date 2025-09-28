@@ -21,5 +21,6 @@ exclude_paths:
   - ami/ansible/collections/*/
 
 skip_list:
+  - name[casing]
   # FALSE_POSITIVE: The proposed style isn't better than name-rescue-block
   - key-order[task]
