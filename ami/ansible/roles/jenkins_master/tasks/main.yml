@@ -40,5 +40,4 @@
     - jenkins.yaml
   notify:
     - install plugins
-    - restart jenkins
   become: true
