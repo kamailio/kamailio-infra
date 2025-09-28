@@ -18,6 +18,21 @@
 
 # TODO set_fact and use it in template
 
+- name: apt-get upgrade
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: yes
+  become: true
+
+- name: ensure packages are installed
+  ansible.builtin.apt:
+    name: "{{ package }}"
+    state: latest
+  loop: "{{ jenkins_master_pkgs + jenkins_master_pkgs_extra }}"
+  loop_control:
+    loop_var: package
+  become: true
+
 - name: download plugin-installation-manager-tool
   ansible.builtin.get_url:
     url: "{{ jenkins_master_plugin_imt_url }}"

@@ -1,2 +1,2 @@
 ---
-jenkins_master_plugin_imt_base: https://github.com/jenkinsci/plugin-installation-manager-tool
+__jenkins_master_plugin_imt_base: https://github.com/jenkinsci/plugin-installation-manager-tool
