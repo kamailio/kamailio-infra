@@ -9,6 +9,7 @@ jenkins_master_plugins_extra:
   - name: build-name-setter
   - name: email-ext
   - name: ssh-agent
+  - name: timestamper
 jenkins_master_scriptapproval_approvedscripthashes:
   - "SHA512:04f22cbe9804ea9793b3a8fbbfa5f1b73a67cdd70e86f5a44c28d43390321cc374104dfb7e94cea46c83336ec01277b1a92d0762d6505200388891902976601d"
   - "SHA512:0f630a12ba36d6b73ad2d2d993f1827492eea9cf20a728d605c9f3c65120ba13da46d0c4014b2a63069fba83cf82141f578b8aa1dda5e0c97249a5b77da30cfc"
