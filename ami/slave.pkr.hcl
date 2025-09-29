@@ -21,10 +21,21 @@ variable "region" {
   default = "eu-central-1"
 }
 
+variable "root_volume_size_gb" {
+  type    = number
+  default = 32
+}
+
 source "amazon-ebs" "debian" {
   ami_name      = "kamailio-infra-slave-{{timestamp}}"
-  instance_type = "t2.micro"
+  instance_type = "t3.large"
   region        = var.region
+  launch_block_device_mappings {
+    device_name           = "/dev/xvda"
+    volume_size           = "${var.root_volume_size_gb}"
+    volume_type           = "gp2"
+    delete_on_termination = true
+  }
   source_ami_filter {
     filters = {
       name                = "debian-13-amd64-*"
