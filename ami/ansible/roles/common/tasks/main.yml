@@ -39,3 +39,14 @@
     chdir: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins"
   changed_when: true
   become: true
+
+- name: Ensure scripts files 0750
+  ansible.builtin.command: find {{ item }} -type f ! -perm 0750 -exec chmod 0750 {} \;
+  args:
+    chdir: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins"
+  loop:
+    - scripts
+    - ec2/bootstrap.sh
+    - jjb/jenkins-jobs-wrapper
+  changed_when: true
+  become: true
