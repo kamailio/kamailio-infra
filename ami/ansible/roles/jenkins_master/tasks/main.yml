@@ -17,6 +17,9 @@
   become: true
 
 # TODO set_fact and use it in template
+- name: Print jenkins_slave_ssh_pub
+  ansible.builtin.debug:
+    var: jenkins_master_keypair.public_key
 
 - name: ensure packages are installed
   ansible.builtin.apt:
