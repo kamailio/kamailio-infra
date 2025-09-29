@@ -16,6 +16,11 @@ variable "environment" {
   default = "dev"
 }
 
+variable "arch" {
+  type    = string
+  default = "amd64"
+}
+
 variable "region" {
   type    = string
   default = "eu-central-1"
@@ -38,7 +43,7 @@ source "amazon-ebs" "debian" {
   }
   source_ami_filter {
     filters = {
-      name                = "debian-13-amd64-*"
+      name                = "debian-13-${var.arch}-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
