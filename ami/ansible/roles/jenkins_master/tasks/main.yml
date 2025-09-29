@@ -18,12 +18,6 @@
 
 # TODO set_fact and use it in template
 
-- name: apt-get upgrade
-  ansible.builtin.apt:
-    upgrade: dist
-    update_cache: yes
-  become: true
-
 - name: ensure packages are installed
   ansible.builtin.apt:
     name: "{{ package }}"

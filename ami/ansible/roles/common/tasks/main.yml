@@ -1,4 +1,19 @@
 ---
+- name: apt-get upgrade
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: yes
+  become: true
+
+- name: ensure packages are installed
+  ansible.builtin.apt:
+    name: "{{ package }}"
+    state: latest
+  loop: "{{ common_pkgs }}"
+  loop_control:
+    loop_var: package
+  become: true
+
 - name: kamailio-deb-jenkins checkout
   ansible.builtin.git: # noqa: git-latest partial-become
     repo: "{{ common_kamailio_deb_jenkins_repo }}"

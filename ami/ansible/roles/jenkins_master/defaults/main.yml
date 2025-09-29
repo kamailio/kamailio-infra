@@ -8,7 +8,6 @@ jenkins_master_admin_address: "address not configured yet <nobody@nowhere>"
 jenkins_master_executors: 2
 jenkins_master_nodes: []
 jenkins_master_pkgs:
-  - git
   - dpkg-dev
   - jenkins-debian-glue
   - reprepro

@@ -1,4 +1,10 @@
 ---
+- name: Ensure jenkins group exists
+  ansible.builtin.group:
+    name: "{{ jenkins_slave_group }}"
+    state: present
+  become: true
+
 - name: jenkins user
   ansible.builtin.user:
     name: "{{ jenkins_slave_username }}"
@@ -10,7 +16,7 @@
       - "{{ jenkins_slave_group }}"
     state: present
   register: jenkins_slave_user_info
-  become: yes
+  become: true
 
 - name: ssh jenkins dir
   ansible.builtin.file:
@@ -28,12 +34,6 @@
     owner: "{{ jenkins_slave_username }}"
     group: "{{ jenkins_slave_group }}"
     mode: '0644'
-  become: true
-
-- name: apt-get upgrade
-  ansible.builtin.apt:
-    upgrade: dist
-    update_cache: yes
   become: true
 
 - name: ensure packages are installed

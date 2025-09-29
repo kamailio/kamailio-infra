@@ -1,2 +1,4 @@
 ---
 common_kamailio_deb_jenkins_repo: https://github.com/sipwise/kamailio-deb-jenkins.git
+common_pkgs:
+  - git
