@@ -15,6 +15,27 @@
   become: true
 
 - name: kamailio-deb-jenkins checkout
-  ansible.builtin.git: # noqa: git-latest partial-become
+  ansible.builtin.git: # noqa: latest[git] partial-become
     repo: "{{ common_kamailio_deb_jenkins_repo }}"
     dest: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins"
+
+- name: perms for group access
+  ansible.builtin.file:
+    path: "{{ ansible_facts.user_dir }}"
+    state: directory
+    mode: '0750'
+  become: true
+
+- name: Ensure checkout dirs 0750
+  ansible.builtin.command: find -type d ! -perm 0750 -exec chmod 0750 {} \;
+  args:
+    chdir: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins"
+  changed_when: true
+  become: true
+
+- name: Ensure files 0640
+  ansible.builtin.command: find . -type f ! -perm 0640 -exec chmod 0640 {} \;
+  args:
+    chdir: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins"
+  changed_when: true
+  become: true

@@ -14,6 +14,7 @@
     groups:
       - sudo
       - "{{ jenkins_slave_group }}"
+      - "{{ ansible_user_gid }}" # kamailio-deb-jenkins
     state: present
   register: jenkins_slave_user_info
   become: true

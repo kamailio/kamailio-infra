@@ -1,4 +1,15 @@
 ---
+- name: jenkins user
+  ansible.builtin.user:
+    name: "{{ jenkins_master_process_user }}"
+    home: "{{ jenkins_master_home }}"
+    append: true
+    groups:
+      - "{{ jenkins_master_process_group }}"
+      - "{{ ansible_user_gid }}" # kamailio-deb-jenkins
+    state: present
+  become: true
+
 - name: jenkins home
   ansible.builtin.file:
     path: "{{ jenkins_master_home }}"
