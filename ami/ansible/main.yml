@@ -7,6 +7,12 @@
         update_cache: yes
       become: true
 
+- name: deb server
+  hosts: deb
+  gather_facts: true
+  roles:
+    - { role: deb }
+
 - name: master
   hosts: jenkins_master
   gather_facts: true

@@ -1,0 +1,4 @@
+---
+deb_certbot_admin_email: vseva@sipwork.pro
+deb_jenkins_servername: jenkins.lab.sipwork.pro
+deb_certbot_testmode: true

@@ -1,0 +1,33 @@
+---
+# Ansible Role Metadata
+# For complete information about all available options:
+# https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
+
+dependencies:
+  - role: geerlingguy.git
+    become: true
+  - role: linuxmaniac.certbot
+    vars:
+      certbot_admin_email: "{{ deb_certbot_admin_email }}"
+      certbot_create_if_missing: true
+      certbot_certs: "{{ deb_certbot_certs }}"
+      certbot_testmode: "{{ deb_certbot_testmode }}"
+      certbot_create_method: nginx
+    become: true
+  - role: geerlingguy.nginx
+    vars:
+      nginx_vhosts: "{{ deb_nginx_vhosts }}"
+    become: true
+
+galaxy_info:
+  role_name: deb
+  author: Victor Seva
+  description: common role for repository server
+  license: GPLv3
+
+  min_ansible_version: "2.11"
+  galaxy_tags: []
+  platforms:
+    - name: Debian
+      versions:
+        - all

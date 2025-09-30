@@ -1,0 +1,14 @@
+---
+- name: nginx snippets
+  ansible.builtin.template:
+    src: "{{ item }}_snip.j2"
+    dest: "/etc/nginx/snippets/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - jenkins
+    - repo
+  notify:
+    - reload_nginx
+  become: true

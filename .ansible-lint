@@ -18,6 +18,7 @@ exclude_paths:
 
   # Don't check external Ansible resources
   - ami/ansible/roles/geerlingguy.*/
+  - ami/ansible/roles/linuxmaniac.*/
   - ami/ansible/collections/*/
 
 skip_list:

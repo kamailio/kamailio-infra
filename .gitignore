@@ -50,6 +50,7 @@ ami/ansible/roles/*
 !ami/ansible/roles/common
 !ami/ansible/roles/jenkins_master
 !ami/ansible/roles/jenkins_slave
+!ami/ansible/roles/deb
 
 # ignore collections
 ami/ansible/collections/*

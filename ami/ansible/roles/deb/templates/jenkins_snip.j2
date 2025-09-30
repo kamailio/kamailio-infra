@@ -1,0 +1,35 @@
+location ~ "^/static/[0-9a-fA-F]{8}\/(.*)$" {
+  root {{ deb_jenkins_war_dir | dirname }}/;
+  #rewrite all static files into requests to the root
+  #E.g /static/12345678/css/something.css will become /css/something.css
+  rewrite "^/static/[0-9a-fA-F]{8}\/(.*)" /$1 last;
+}
+
+location /userContent {
+  #have nginx handle all the static requests to the userContent folder files
+  root {{ deb_jenkins_master_home | dirname }}/;
+  if (!-f $request_filename){
+    #this file does not exist, might be a directory or a /**view** url
+    rewrite (.*) /$1 last;
+    break;
+  }
+  sendfile on;
+}
+
+location / {
+    proxy_pass        http://{{ deb_jenkins_servername }}:8080;
+    proxy_redirect    http://{{ deb_jenkins_servername }}/ https://{{ deb_jenkins_servername }}/;
+    proxy_set_header  X-Real-IP $remote_addr;
+    proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header  X-Forwarded-Proto https;
+    proxy_set_header  Host $http_host;
+    proxy_hide_header X-Powered-By;
+    # causes problems on ports 3000, 5000,.... where no https is available:
+    # add_header Strict-Transport-Security "max-age=315360000; includeSubdomains";
+    proxy_connect_timeout      90;
+    proxy_send_timeout         90;
+    proxy_read_timeout         90;
+    proxy_buffering            off;
+    proxy_request_buffering    off; # Required for HTTP CLI commands in Jenkins > 2.54
+    proxy_set_header Connection ""; # Clear for keepalive
+}
