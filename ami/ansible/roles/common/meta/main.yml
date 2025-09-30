@@ -3,7 +3,9 @@
 # For complete information about all available options:
 # https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
 
-dependencies: []
+dependencies:
+  - role: geerlingguy.git
+    become: true
 
 galaxy_info:
   role_name: common

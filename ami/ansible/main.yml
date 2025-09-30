@@ -1,8 +1,9 @@
 - name: common tasks
   hosts: all
   tasks:
-    - name: update chache
+    - name: apt-get upgrade
       ansible.builtin.apt:
+        upgrade: dist
         update_cache: yes
       become: true
 
