@@ -23,10 +23,6 @@ deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg,/etc/apt/keyrings/opentofu-rep
 apt install tofu
 ```
 
-### [terragrunt](https://github.com/gruntwork-io/terragrunt/releases)
-
-Used to keep dev and production environments and don't replicate code if possible.
-
 ### [packer](https://github.com/hashicorp/packer/releases)
 
 ### ansible
