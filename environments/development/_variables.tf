@@ -53,13 +53,13 @@ variable "ami" {
 }
 variable "instance_type" {
   type        = string
-  default     = "t1.micro"
+  default     = "t2.micro"
   description = "Envirnoment instance type"
 }
 
 ## Access keys
 variable "initial_ssh_key_name" {
   type        = string
-  default     = "aws_ie-1"
+  default     = "vseva-key"
   description = "Initial ssh key name to be used to access the instances"
 }
