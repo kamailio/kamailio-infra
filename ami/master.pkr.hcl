@@ -59,7 +59,7 @@ build {
     roles_path          = "ansible/roles"
     collections_path    = "ansible/collections"
     inventory_directory = "ansible/inventory_${var.environment}"
-    groups              = ["jenkins_master"]
+    groups              = ["deb", "jenkins_master"]
     ansible_env_vars    = ["ANSIBLE_CONFIG=ansible/ansible.cfg"]
     extra_arguments     = ["--extra-vars", "\"environment=${var.environment}\""]
     # debugging
