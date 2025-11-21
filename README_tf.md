@@ -10,7 +10,7 @@ and persistent EBS storage with remote state management.
 ```text
 ================================================================================
                               AWS ACCOUNT
-                           Region: eu-west-1
+                           Region: eu-central-1
 ================================================================================
 
 [STEP 1] GLOBAL INFRASTRUCTURE (environments/global/) - DEPLOY FIRST!
@@ -35,7 +35,7 @@ and persistent EBS storage with remote state management.
     | VPC: kamailio-development-vpc                                         |
     | CIDR: 172.10.0.0/16                                                   |
     |                                                                       |
-    |   Availability Zone: eu-west-1b                                       |
+    |   Availability Zone: eu-central-1b                                       |
     |                                                                       |
     |   +---------------------------------------------------------------+   |
     |   | Subnet: 172.10.10.0/24                                        |   |
@@ -76,7 +76,7 @@ and persistent EBS storage with remote state management.
     | VPC: kamailio-production-vpc                                          |
     | CIDR: 172.20.0.0/16                                                   |
     |                                                                       |
-    |   Availability Zone: eu-west-1b                                       |
+    |   Availability Zone: eu-central-1b                                       |
     |                                                                       |
     |   +---------------------------------------------------------------+   |
     |   | Subnet: 172.20.20.0/24                                        |   |
@@ -161,12 +161,12 @@ and persistent EBS storage with remote state management.
 - **EBS Volumes**: Persistent 15GB storage volumes for build artifacts and packages
 - **Auto-attach**: Volumes automatically attached to EC2 instances at `/dev/sdf`
 - **Lifecycle Protection**: `prevent_destroy` enabled to protect data from accidental deletion
-- **Availability Zone Aware**: Volumes and instances deployed in same AZ (eu-west-1b)
+- **Availability Zone Aware**: Volumes and instances deployed in same AZ (eu-central-1b)
 
 ### Environment Isolation
 
 - **Separate VPCs**: Complete network isolation between development and production
-- **Availability Zones**: Resources deployed in `eu-west-1b` (configurable)
+- **Availability Zones**: Resources deployed in `eu-central-1b` (configurable)
 - **Independent Infrastructure**: Each environment can be managed, updated, and destroyed independently
 
 ## Directory Structure
@@ -313,7 +313,7 @@ terraform apply
 
 ## Availability Zones
 
-All resources are deployed in **eu-west-1b** (the second availability zone in eu-west-1). This is configured using:
+All resources are deployed in **eu-central-1b** (the second availability zone in eu-central-1). This is configured using:
 
 ```hcl
 availability_zone = data.aws_availability_zones.available.names[1]
@@ -329,9 +329,9 @@ availability_zone = data.aws_availability_zones.available.names[1]
 
 Edit the index value in `ebs-storage.tf` and `ec2-jenkins.tf`:
 
-- `names[0]` = First AZ (eu-west-1a)
-- `names[1]` = Second AZ (eu-west-1b)
-- `names[2]` = Third AZ (eu-west-1c)
+- `names[0]` = First AZ (eu-central-1a)
+- `names[1]` = Second AZ (eu-central-1b)
+- `names[2]` = Third AZ (eu-central-1c)
 
 ## Storage Protection
 
@@ -388,8 +388,8 @@ Each environment can be customized via `_variables.tf`:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `region` | AWS region | `eu-west-1` |
-| `availability_zone` | Availability zone for EBS volume | `eu-west-1b` |
+| `region` | AWS region | `eu-central-1` |
+| `availability_zone` | Availability zone for EBS volume | `eu-central-1b` |
 | `environment` | Environment name | `development` / `production` |
 | `vpc_name` | VPC name | `kamailio-development-vpc` / `kamailio-production-vpc` |
 | `main_cidr_block` | VPC network range | `172.10.0.0/16` (dev) / `172.20.0.0/16` (prod) |

@@ -10,7 +10,7 @@ terraform {
   backend "s3" {
     bucket         = "kamailio-build-env-state"
     key            = "production/terraform.tfstate"
-    region         = "eu-west-1"
+    region         = "eu-central-1"
     dynamodb_table = "kamailio-build-env-locks"
     encrypt        = true
   }

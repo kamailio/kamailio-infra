@@ -1,13 +1,13 @@
 variable "region" {
   type        = string
-  default     = "eu-west-1"
+  default     = "eu-central-1"
   description = "AWS region to use"
 }
 
 ## Specifying the availability zone to use for storage
 variable "availability_zone" {
   type        = string
-  default     = "eu-west-1b"
+  default     = "eu-central-1b"
   description = "Availability zone for EBS volume"
 }
 
