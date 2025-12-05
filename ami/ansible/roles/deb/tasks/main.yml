@@ -1,4 +1,44 @@
 ---
+- name: certbot live dir
+  ansible.builtin.file:
+    path: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}"
+    owner: root
+    group: root
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Check if certificate already exists.
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/{{ deb_jenkins_servername }}/cert.pem
+  register: deb_letsencrypt_cert
+  become: true
+
+- name: fake cerbot files
+  when: not deb_letsencrypt_cert.stat.exists
+  block:
+    - name: ssl-cert package
+      ansible.builtin.apt:
+        name: ssl-cert
+        state: latest
+    - name: fake cert
+      ansible.builtin.copy:
+        src: /etc/ssl/certs/ssl-cert-snakeoil.pem
+        dest: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}/fullchain.pem"
+        owner: root
+        group: root
+        mode: '0644'
+        remote_src: true
+    - name: fake key
+      ansible.builtin.copy:
+        src: /etc/ssl/private/ssl-cert-snakeoil.key
+        dest: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}/privkey.pem"
+        owner: root
+        group: root
+        mode: '0644'
+        remote_src: true
+  become: true
+
 - name: nginx snippets
   ansible.builtin.template:
     src: "{{ item }}_snip.j2"

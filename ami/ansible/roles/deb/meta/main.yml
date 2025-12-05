@@ -10,6 +10,7 @@ dependencies:
     vars:
       certbot_admin_email: "{{ deb_certbot_admin_email }}"
       certbot_create_if_missing: false
+      certbot_auto_renew: false
       certbot_certs: "{{ deb_certbot_certs }}"
       certbot_testmode: "{{ deb_certbot_testmode }}"
       certbot_create_method: nginx
