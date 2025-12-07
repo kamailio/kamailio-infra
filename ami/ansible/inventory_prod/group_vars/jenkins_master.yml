@@ -1,5 +1,6 @@
 ---
 jenkins_master_admin_address: "<vseva@sipwork.pro>"
+jenkins_master_servername: jenkins.kamailio.org
 jenkins_master_executors: 5
 jenkins_master_plugins_extra:
   - name: workflow-aggregator
