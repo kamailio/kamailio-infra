@@ -5,6 +5,7 @@ deb_certbot_certs:
   - name: "{{ deb_jenkins_servername }}"
     domains:
       - "{{ deb_jenkins_servername }}"
+deb_certbot_create: false
 deb_certbot_testmode: false
 deb_nginx_vhosts:
   - listen: "443 ssl"
