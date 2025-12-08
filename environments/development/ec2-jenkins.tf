@@ -19,3 +19,13 @@ resource "aws_volume_attachment" "package_volume_to_instance" {
   instance_id = aws_instance.jenkins.id
   depends_on  = [aws_instance.jenkins]
 }
+
+resource "aws_eip" "jenkins" {
+  instance   = aws_instance.jenkins.id
+  domain     = "vpc"
+  depends_on = [aws_instance.jenkins]
+
+  tags = {
+    Environment = var.environment
+  }
+}
