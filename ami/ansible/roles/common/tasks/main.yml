@@ -8,6 +8,13 @@
     loop_var: package
   become: true
 
+- name: ssh authorized_keys
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ item }}"
+    state: present
+  loop: "{{ common_sshkeys|default([]) }}"
+
 - name: kamailio-deb-jenkins checkout
   ansible.builtin.git: # noqa: latest[git] partial-become
     repo: "{{ common_kamailio_deb_jenkins_repo }}"
