@@ -30,6 +30,9 @@ source "amazon-ebs" "debian" {
   ami_name      = "kamailio-infra-master-{{timestamp}}"
   instance_type = "t2.micro"
   region        = var.region
+  tags          = {
+    Environment = var.environment
+  }
   launch_block_device_mappings {
     device_name           = "/dev/xvda"
     volume_size           = "${var.root_volume_size_gb}"
