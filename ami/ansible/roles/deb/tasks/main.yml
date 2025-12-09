@@ -1,4 +1,14 @@
 ---
+- name: Mount repository device by PARTUUID
+  ansible.posix.mount:
+    path: /srv
+    src: "PARTUUID={{ deb_repository_device }}"
+    fstype: ext4
+    opts: defaults,noatime
+    passno: 2
+    state: present
+  become: true
+
 - name: cron package
   ansible.builtin.apt:
     name: cron
