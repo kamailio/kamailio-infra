@@ -44,7 +44,7 @@ And use workon before to activate the virtualenv and install requirements
 ```bash
 workon ansible
 cd ami/ansible
-ansible-galaxy collection install --upgrade -r collections/requirements.yml
+ansible-galaxy collection install -f --upgrade -r collections/requirements.yml
 ansible-galaxy role install -f -r roles/requirements.yml
 ```
 
