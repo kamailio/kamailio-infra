@@ -75,14 +75,25 @@ apt install pre-commit
 pre-commit install
 ```
 
-## TODO
+## Initial config of letsencrypt
 
-### use [terraform-aws-modules](https://github.com/terraform-aws-modules)
+This has to be executed just once when jenkins-master instance gets created
 
-* [terraform-aws-vpc](https://github.com/terraform-aws-modules/terraform-aws-vpc)
-* [terraform-aws-ec2-instance](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance)
-* [terraform-aws-s3-bucket](https://github.com/terraform-aws-modules/terraform-aws-s3-bucket)
+Remove jenkins host from nginx and remove fake letsencrypt certs:
 
-examples:
+```bash
+ssh admin@jenkins.dev.kamailio.org
+sudo -i
+cd /etc/nginx/sites-enabled
+rm jenkins.dev.kamailio.org.conf
+cd /etc/letsencrypt
+rm -rf live
+```
 
-* [ipv6-dualstack](https://github.com/terraform-aws-modules/terraform-aws-vpc/tree/master/examples/ipv6-dualstack)
+Execute ansible with deb_certbot_create as true:
+
+```bash
+cd ami/ansible
+workon ansible
+ansible-playbook  --inventory=inventory_dev/inventory main.yml --extra-vars='{"deb_certbot_create":true}'
+```
