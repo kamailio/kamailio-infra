@@ -64,3 +64,22 @@
   notify:
     - install plugins
   become: true
+
+- name: Generate admin token
+  community.general.jenkins_credential:
+    name: "ansible"
+    jenkins_user: "{{ jenkins_master_admin_username }}"
+    jenkins_password: "{{ jenkins_master_admin_password }}"
+    type: "token"
+  register: jenkins_master_token_result
+
+- name: jjb config
+  ansible.builtin.template:
+    src: jenkins_jobs.ini.j2
+    dest: /etc/jenkins_jobs/jenkins_jobs.ini
+    owner: root
+    group: "{{ ansible_facts.user_gid }}"
+    mode: '0640'
+  vars:
+    jenkins_master_admin_token: "{{ jenkins_master_token_result.token }}"
+  become: true
