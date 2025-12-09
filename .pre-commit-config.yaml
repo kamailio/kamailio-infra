@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.100.0
+    rev: v1.104.0
     hooks:
       - id: terraform_fmt
       - id: terraform_docs
@@ -30,7 +30,7 @@ repos:
   # Check Markdown documents with Markdownlint(Node.js variant)
   # https://github.com/DavidAnson/markdownlint
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
+    rev: v0.46.0
     hooks:
       - id: markdownlint-docker
 
@@ -51,7 +51,7 @@ repos:
       - id: yamllint
 
   - repo: https://github.com/ansible/ansible-lint
-    rev: v25.9.0
+    rev: v25.12.0
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
