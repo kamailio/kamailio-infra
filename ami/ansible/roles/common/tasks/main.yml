@@ -15,6 +15,12 @@
     state: present
   loop: "{{ common_sshkeys|default([]) }}"
 
+- name: Download tmux.conf
+  ansible.builtin.get_url:
+    url: "{{ __gh_base }}/.tmux.conf"
+    dest: "{{ ansible_facts.user_dir }}/.tmux.conf"
+    mode: '0640'
+
 - name: kamailio-deb-jenkins checkout
   ansible.builtin.git: # noqa: latest[git] partial-become
     repo: "{{ common_kamailio_deb_jenkins_repo }}"
