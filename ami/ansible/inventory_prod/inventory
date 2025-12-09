@@ -1,0 +1,5 @@
+[deb]
+jenkins.kamailio.org ansible_user=admin
+
+[jenkins_master]
+jenkins.kamailio.org ansible_user=admin
