@@ -60,6 +60,6 @@ variable "instance_type" {
 ## Access keys
 variable "initial_ssh_key_name" {
   type        = string
-  default     = "vseva-key-production"
+  default     = "vseva-key"
   description = "Initial ssh key name to be used to access the instances"
 }

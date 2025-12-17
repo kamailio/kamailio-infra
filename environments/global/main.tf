@@ -7,3 +7,8 @@ terraform {
     }
   }
 }
+
+resource "aws_key_pair" "vseva" {
+  key_name   = "vseva-key"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEfAU3uyA2auccZt0wn9OWWxGYLttOaagDVJh4VtfPO6"
+}
