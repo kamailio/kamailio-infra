@@ -19,18 +19,23 @@
     mode: '0755'
   become: true
 
-- name: generate jenkins keypair
-  community.crypto.openssh_keypair:
-    path: "{{ jenkins_master_home }}/id_ssh_rsa"
+- name: jenkins id_ssh_rsa
+  ansible.builtin.copy:
+    dest: "{{ jenkins_master_home }}/id_ssh_rsa"
+    content: "{{ jenkins_master_jenkins_ssh }}"
     owner: "{{ jenkins_master_process_user }}"
     group: "{{ jenkins_master_process_group }}"
-  register: jenkins_master_keypair
+    mode: '0600'
   become: true
 
-# TODO set_fact and use it in template
-- name: Print jenkins_slave_ssh_pub
-  ansible.builtin.debug:
-    var: jenkins_master_keypair.public_key
+- name: jenkins id_ssh_rsa.pub
+  ansible.builtin.copy:
+    dest: "{{ jenkins_master_home }}/id_ssh_rsa.pub"
+    content: "{{ jenkins_master_jenkins_ssh_pub }}"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    mode: '0644'
+  become: true
 
 - name: ensure packages are installed
   ansible.builtin.apt:

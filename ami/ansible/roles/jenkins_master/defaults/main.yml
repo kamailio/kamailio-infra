@@ -3,6 +3,8 @@ jenkins_master_servername: localhost
 jenkins_master_home: /var/lib/jenkins
 jenkins_master_process_user: jenkins
 jenkins_master_process_group: "{{ jenkins_master_process_user }}"
+jenkins_master_jenkins_ssh: ~
+jenkins_master_jenkins_ssh_pub: ~
 jenkins_master_admin_username: admin
 jenkins_master_admin_password: admin
 jenkins_master_admin_address: "address not configured yet <nobody@nowhere>"
