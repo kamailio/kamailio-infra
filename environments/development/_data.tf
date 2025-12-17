@@ -31,3 +31,8 @@ data "aws_iam_policy_document" "jenkins_ec2" {
     resources = ["*"]
   }
 }
+
+data "sops_file" "secrets" {
+  source_file = "../../ami/ansible/inventory_dev/group_vars/all.sops.yml"
+  input_type  = "yaml"
+}
