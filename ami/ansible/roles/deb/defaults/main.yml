@@ -26,6 +26,7 @@ deb_nginx_vhosts:
       ssl_prefer_server_ciphers   on;
       client_max_body_size 20M;
   - listen: "80"
+    filename: apt-cacher.conf
     server_name: "{{ deb_apt_cache_servername }}"
     state: "present"
     access_log: /var/log/nginx/access_apt_cacher.log
