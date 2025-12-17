@@ -18,6 +18,10 @@ dependencies:
   - role: geerlingguy.nginx
     vars:
       nginx_vhosts: "{{ deb_nginx_vhosts }}"
+      nginx_remove_default_vhost: true
+      nginx_proxy_cache_path: /var/cache/nginx keys_zone=acng_cache:10m max_size=100m
+      nginx_extra_http_options: |
+        limit_req_zone $request_uri zone=acng:10m rate=4r/s;
     become: true
 
 galaxy_info:

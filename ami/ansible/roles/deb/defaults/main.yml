@@ -1,6 +1,7 @@
 ---
 deb_certbot_admin_email: email@example.com
 deb_jenkins_servername: jenkins.fake
+deb_apt_cache_servername: "{{ hostvars[inventory_hostname].ip | default(ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0])) }}"
 deb_certbot_certs:
   - name: "{{ deb_jenkins_servername }}"
     domains:
@@ -11,6 +12,7 @@ deb_nginx_vhosts:
   - listen: "443 ssl"
     server_name: "{{ deb_jenkins_servername }}"
     state: "present"
+    access_log: /var/log/nginx/access_{{ deb_jenkins_servername }}.log
     extra_parameters: |
       include snippets/repo.conf;
       include snippets/jenkins.conf;
@@ -23,6 +25,14 @@ deb_nginx_vhosts:
       ssl_ciphers  ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:ECDHE-RSA-RC4-SHA:DHE-RSA-CAMELLIA256-SHA:DHE-DSS-CAMELLIA256-SHA:ECDH-ECDSA-AES256-GCM-SHA384:ECDH-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:RC4-SHA:ECDH-ECDSA-AES256-SHA:ECDH-RSA-AES256-SHA:CAMELLIA256-SHA:AES256-SHA;
       ssl_prefer_server_ciphers   on;
       client_max_body_size 20M;
+  - listen: "80"
+    server_name: "{{ deb_apt_cache_servername }}"
+    state: "present"
+    access_log: /var/log/nginx/access_apt_cacher.log
+    extra_parameters: |
+      include snippets/apt_cache.conf;
 deb_jenkins_war_dir: /var/cache/jenkins/war/
 deb_jenkins_master_home: /var/lib/jenkins/
 deb_repository_basedir: /srv
+deb_apt_cache_allow_ips:
+  - 127.0.0.1/32

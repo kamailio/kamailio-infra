@@ -15,6 +15,31 @@
     state: latest
   become: true
 
+- name: Install apt-cacher-ng package
+  ansible.builtin.apt:
+    name: apt-cacher-ng
+    state: latest
+  become: true
+
+- name: Set config
+  ansible.builtin.lineinfile:
+    dest: /etc/apt-cacher-ng/acng.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: "{{ item.state | default('present') }}"
+  with_items:
+    - { regexp: "^# PassThroughPattern:", line: "PassThroughPattern: .*" }
+  notify:
+    - restart_apt_cacher
+  become: true
+
+- name: Enable apt-cacher-ng service
+  ansible.builtin.service:
+    name: apt-cacher-ng
+    state: started
+    enabled: true
+  become: true
+
 - name: Check if certificate already exists.
   ansible.builtin.stat:
     path: /etc/letsencrypt/live/{{ deb_jenkins_servername }}/cert.pem
@@ -63,6 +88,7 @@
   loop:
     - jenkins
     - repo
+    - apt_cache
   notify:
     - reload_nginx
   become: true

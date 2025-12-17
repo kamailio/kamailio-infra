@@ -4,3 +4,9 @@
     name: nginx
     state: reloaded
   become: true
+
+- name: restart_apt_cacher
+  ansible.builtin.service:
+    name: apt-cacher-ng
+    state: restarted
+  become: true
