@@ -1,22 +1,13 @@
 ---
-- name: Ensure jenkins group exists
-  ansible.builtin.group:
-    name: "{{ jenkins_slave_group }}"
-    state: present
-  become: true
-
-- name: jenkins user
+- name: jenkins_slave user groups
   ansible.builtin.user:
     name: "{{ jenkins_slave_username }}"
-    uid: 2000
     home: "{{ jenkins_slave_home }}"
     append: true
     groups:
       - sudo
       - "{{ jenkins_slave_group }}"
-      - "{{ ansible_user_gid }}" # kamailio-deb-jenkins
     state: present
-  register: jenkins_slave_user_info
   become: true
 
 - name: ssh jenkins dir
