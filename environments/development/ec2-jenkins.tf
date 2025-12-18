@@ -4,6 +4,7 @@ resource "aws_instance" "jenkins" {
   subnet_id              = module.networking.subnet_id
   availability_zone      = data.aws_availability_zones.available.names[1]
   vpc_security_group_ids = [aws_security_group.development.id]
+  iam_instance_profile   = aws_iam_instance_profile.jenkins.name
   key_name               = var.initial_ssh_key_name
 
   tags = {

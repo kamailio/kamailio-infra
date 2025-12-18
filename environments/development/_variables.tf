@@ -4,14 +4,6 @@ variable "region" {
   description = "AWS region to use"
 }
 
-## Specifying the availability zone to use for storage
-variable "availability_zone" {
-  type        = string
-  default     = "eu-central-1b"
-  description = "Availability zone for EBS volume"
-}
-
-
 variable "environment" {
   type        = string
   default     = "development"
@@ -48,7 +40,7 @@ variable "packages_disk_volume" {
 ## VM details
 variable "ami" {
   type        = string
-  default     = "ami-0d2438a52de835c8f"
+  default     = "ami-07501e245701b9afd"
   description = "AMI to use"
 }
 variable "instance_type" {
