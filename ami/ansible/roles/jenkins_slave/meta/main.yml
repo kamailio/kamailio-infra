@@ -6,6 +6,10 @@
 dependencies:
   - role: common
   - role: geerlingguy.java
+    vars:
+      java_packages:
+        - openjdk-21-jdk-headless
+        - ca-certificates-java
     become: true
 
 galaxy_info:

@@ -28,7 +28,7 @@
     line: "{{ item.line }}"
     state: "{{ item.state | default('present') }}"
   with_items:
-    - { regexp: "^# PassThroughPattern:", line: "PassThroughPattern: .*" }
+    - { regexp: '^# PassThroughPattern: \.\*', line: "PassThroughPattern: .*" }
   notify:
     - restart_apt_cacher
   become: true

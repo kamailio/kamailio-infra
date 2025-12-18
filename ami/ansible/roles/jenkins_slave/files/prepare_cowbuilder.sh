@@ -64,3 +64,6 @@ prepare_cowbuilder() {
 for arch in ${arch} ; do
   prepare_cowbuilder
 done
+
+echo "Cleaning pbuilder's apt cache"
+rm -f /var/cache/pbuilder/aptcache/*

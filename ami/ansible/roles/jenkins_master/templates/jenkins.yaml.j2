@@ -1,3 +1,27 @@
+x-ec2_anchor: &ec2_anchor
+  associateIPStrategy: PUBLIC_IP
+  connectBySSHProcess: false
+  connectionStrategy: PUBLIC_IP
+  deleteRootOnTermination: false
+  ebsOptimized: false
+  idleTerminationMinutes: "10"
+  maxTotalUses: -1
+  monitoring: false
+  numExecutors: 4
+  stopOnTerminate: false
+  tenancy: Default
+  useEphemeralDevices: false
+  zone: "{{ jenkins_master_ec2_region }}"
+  ami: "{{ jenkins_master_ec2_ami }}"
+  securityGroups: "{{ jenkins_master_ec2_security_group }}"
+  subnetId: "{{ jenkins_master_ec2_subnet_id }}"
+  remoteFS: "/home/admin"
+  remoteAdmin: "admin"
+  mode: "EXCLUSIVE"
+  amiType:
+    unixData:
+      sshPort: "22"
+
 configuration-as-code: {
   }
 credentials:
@@ -7,7 +31,15 @@ credentials:
     }
   system:
     domainCredentials:
-    - domain: {
+    - credentials:
+      - basicSSHUserPrivateKey:
+          description: "SSH key credential"
+          id: "ssh-key-credential-id"
+          privateKeySource:
+            directEntry:
+              privateKey: "${readFile:{{ __jenkins_master_sshkey_file }}}"
+          username: "admin"
+      domain: {
         }
   user: {
     }
@@ -15,6 +47,24 @@ jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
+  clouds:
+    - amazonEC2:
+        name: "ec2"
+        instanceCapStr: 10
+        useInstanceProfileForCredentials: true
+        sshKeysCredentialsId: "{{ __jenkins_master_sshkey_credential_id }}"
+        noDelayProvisioning: true
+        region: "{{ jenkins_master_ec2_region }}"
+        templates:
+{% for distri in jenkins_master_ec2_ami_distributions %}
+          - description: "jenkins-debian-glue-slave {{ distri }}"
+            type: "t3.large"
+            labelString: "slave:{{ distri }}"
+            initScript: |
+              sudo sed -i 's?#:APT-CACHER:#?export http_proxy=http://{{ jenkins_master_apt_cache_servername }}?' /etc/jenkins/pbuilderrc
+              sudo /home/admin/prepare_cowbuilder.sh {{ distri }} $(dpkg --print-architecture) 2>&1 | tee /tmp/initsh.log
+            <<: *ec2_anchor
+{% endfor %}
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
@@ -105,7 +155,7 @@ security:
 {% if jenkins_master_scriptapproval_approvedscripthashes|length > 0 %}
     approvedScriptHashes:
 {%  for item in jenkins_master_scriptapproval_approvedscripthashes %}
-    - {{ item }}
+    - "{{ item }}"
 {%  endfor %}
 {% else %}
     approvedScriptHashes: []

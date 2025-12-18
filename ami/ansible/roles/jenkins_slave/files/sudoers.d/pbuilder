@@ -1,1 +1,1 @@
-Defaults  env_keep+="architecture branch distribution release ARCH DEB_* DIST JOB_NAME MIRROR PIUPARTS_* LINTIAN*"
+Defaults  env_keep+="http_proxy architecture branch distribution release ARCH DEB_* DIST JOB_NAME MIRROR PIUPARTS_* LINTIAN*"

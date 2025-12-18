@@ -19,22 +19,22 @@
     mode: '0755'
   become: true
 
-- name: jenkins id_ssh_rsa
+- name: repository directory
+  ansible.builtin.file:
+    path: /srv/repository
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: jenkins id_ssh_rsa.pem
   ansible.builtin.copy:
-    dest: "{{ jenkins_master_home }}/id_ssh_rsa"
+    dest: "{{ __jenkins_master_sshkey_file }}"
     content: "{{ jenkins_master_jenkins_ssh }}"
     owner: "{{ jenkins_master_process_user }}"
     group: "{{ jenkins_master_process_group }}"
     mode: '0600'
-  become: true
-
-- name: jenkins id_ssh_rsa.pub
-  ansible.builtin.copy:
-    dest: "{{ jenkins_master_home }}/id_ssh_rsa.pub"
-    content: "{{ jenkins_master_jenkins_ssh_pub }}"
-    owner: "{{ jenkins_master_process_user }}"
-    group: "{{ jenkins_master_process_group }}"
-    mode: '0644'
   become: true
 
 - name: ensure packages are installed
@@ -56,23 +56,34 @@
     mode: '0440'
   become: true
 
-- name: plugins and config-as-code configs
+- name: plugins config
   ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "{{ jenkins_master_home }}/{{ item }}"
+    src: "plugins.yaml.j2"
+    dest: "{{ jenkins_master_home }}/plugins.yaml"
     owner: "{{ jenkins_master_process_user }}"
     group: "{{ jenkins_master_process_group }}"
     mode: '0640'
-  loop:
-    - plugins.yaml
-    - jenkins.yaml
   notify:
     - install plugins
   become: true
 
+- name: config-as-code config
+  ansible.builtin.template:
+    src: jenkins.yaml.j2
+    dest: "{{ jenkins_master_home }}/jenkins.yaml"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    mode: '0640'
+  notify:
+    - restart jenkins
+  become: true
+
+- name: Force handler to run now (e.g., for a dependent task)
+  ansible.builtin.meta: flush_handlers
+
 - name: Generate admin token
   community.general.jenkins_credential:
-    name: "ansible"
+    name: "jjb"
     jenkins_user: "{{ jenkins_master_admin_username }}"
     jenkins_password: "{{ jenkins_master_admin_password }}"
     type: "token"

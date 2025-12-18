@@ -1,3 +1,4 @@
+#:APT-CACHER:#
 # distribution specific configuration
 case "$distribution" in
   xenial|bionic|focal|jammy|noble)

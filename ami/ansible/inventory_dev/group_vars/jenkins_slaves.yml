@@ -1,12 +1,3 @@
 ---
 jenkins_slave_ssh_pub: "{{ jenkins_master_jenkins_ssh_pub }}"
-jenkins_slave_distris:
-  - bionic
-  - bookworm
-  - bullseye
-  - focal
-  - jammy
-  - noble
-  - trixie
-  - trusty
-  - xenial
+jenkins_slave_distris: "{{ ec2_ami_distributions }}"

@@ -1,2 +1,4 @@
 ---
 __jenkins_master_plugin_imt_base: https://github.com/jenkinsci/plugin-installation-manager-tool
+__jenkins_master_sshkey_credential_id: ssh-key-credential-id
+__jenkins_master_sshkey_file: "{{ jenkins_master_home }}/id_ssh_rsa.pem"

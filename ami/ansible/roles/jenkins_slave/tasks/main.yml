@@ -52,13 +52,13 @@
     dest: /etc/jenkins/pbuilderrc
     owner: root
     group: root
-    mode: '0440'
+    mode: '0444'
   become: true
 
 - name: debian_glue
   ansible.builtin.replace:
     path: /etc/jenkins/debian_glue
-    regexp: '^# PBUILDER_CONFIG='
+    regexp: '^# PBUILDER_CONFIG=/etc/jenkins/pbuilderrc'
     replace: PBUILDER_CONFIG=/etc/jenkins/pbuilderrc
   become: true
 

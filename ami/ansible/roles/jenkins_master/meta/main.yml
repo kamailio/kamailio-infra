@@ -14,6 +14,7 @@ dependencies:
       jenkins_admin_password: "{{ jenkins_master_admin_password }}"
       jenkins_admin_password_file: /var/lib/jenkins/secrets/initialAdminPassword
       jenkins_plugins: [] # plugins will be installed with plugin-installation-manager-tool
+      jenkins_options: "{{ jenkins_master_options }}"
       jenkins_process_user: "{{ jenkins_master_process_user }}"
       jenkins_process_group: "{{ jenkins_master_process_group }}"
     become: true
