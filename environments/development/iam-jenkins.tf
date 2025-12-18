@@ -12,7 +12,7 @@ resource "aws_iam_access_key" "jenkins" {
 }
 
 resource "aws_iam_role" "jenkins" {
-  name = "jenkins"
+  name = "jenkins-${var.environment}"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -28,12 +28,12 @@ resource "aws_iam_role" "jenkins" {
 }
 
 resource "aws_iam_role_policy" "jenkins" {
-  name   = "jenkins"
+  name   = "jenkins-${var.environment}"
   role   = aws_iam_role.jenkins.name
   policy = data.aws_iam_policy_document.jenkins_ec2.json
 }
 
 resource "aws_iam_instance_profile" "jenkins" {
-  name = "jenkins"
+  name = "jenkins-${var.environment}"
   role = aws_iam_role.jenkins.name
 }

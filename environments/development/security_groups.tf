@@ -63,3 +63,41 @@ resource "aws_security_group_rule" "outbound_allow_all" {
   cidr_blocks = ["0.0.0.0/0"]
 
 }
+
+resource "aws_security_group" "jenkins_slave" {
+  name   = "jenkins_slave_${var.environment}"
+  vpc_id = module.vpc.vpc_id
+
+  tags = {
+    Name        = "jenkins-slave-${var.environment}-security-group"
+    Environment = var.environment
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_security_group_rule" "slave_ssh_22" {
+  type              = "ingress"
+  security_group_id = aws_security_group.jenkins_slave.id
+
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  cidr_blocks = local.ssh_allowed_cidrs
+
+}
+
+## Outbound traffic
+
+resource "aws_security_group_rule" "slave_outbound_allow_all" {
+  type              = "egress"
+  security_group_id = aws_security_group.jenkins_slave.id
+
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+
+}

@@ -4,14 +4,6 @@ variable "region" {
   description = "AWS region to use"
 }
 
-## Specifying the availability zone to use for storage
-variable "availability_zone" {
-  type        = string
-  default     = "eu-central-1b"
-  description = "Availability zone for EBS volume"
-}
-
-
 variable "environment" {
   type        = string
   default     = "production"
