@@ -26,7 +26,12 @@ resource "aws_eip" "jenkins" {
   domain     = "vpc"
   depends_on = [aws_instance.jenkins]
 
+  lifecycle {
+    prevent_destroy = true
+  }
+
   tags = {
+    Name        = "Jenkins-${var.environment}-ip"
     Environment = var.environment
   }
 }

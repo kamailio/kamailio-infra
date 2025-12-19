@@ -40,7 +40,7 @@ variable "packages_disk_volume" {
 ## VM details
 variable "ami" {
   type        = string
-  default     = "ami-07501e245701b9afd"
+  default     = "ami-022b4bff2509a8015"
   description = "AMI to use"
 }
 variable "instance_type" {
