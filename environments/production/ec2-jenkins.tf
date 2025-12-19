@@ -1,12 +1,26 @@
-resource "aws_instance" "jenkins" {
-  ami                    = var.ami
-  instance_type          = var.instance_type
-  subnet_id              = module.networking.subnet_id
-  availability_zone      = data.aws_availability_zones.available.names[1]
-  vpc_security_group_ids = [aws_security_group.production.id]
-  iam_instance_profile   = aws_iam_instance_profile.jenkins.name
-  key_name               = var.initial_ssh_key_name
+locals {
+  jenkins_master_servername = data.sops_file.secrets.data["jenkins_master_servername"]
+}
 
+resource "aws_instance" "jenkins" {
+  ami                         = var.ami
+  instance_type               = var.instance_type
+  subnet_id                   = module.networking.subnet_id
+  availability_zone           = data.aws_availability_zones.available.names[1]
+  vpc_security_group_ids      = [aws_security_group.production.id]
+  iam_instance_profile        = aws_iam_instance_profile.jenkins.name
+  key_name                    = var.initial_ssh_key_name
+  user_data                   = <<-EOF
+    #!/bin/bash
+    echo "starting user_data at $(date)"
+    rm /etc/nginx/sites-enabled/${local.jenkins_master_servername}.conf
+    echo "remove nginx ${local.jenkins_master_servername} config"
+    rm -rf /etc/letsencrypt/live
+    echo "removed /etc/letsencrypt/live"
+    echo "*** remote ansible execution needed ***"
+    echo "done user_data at $(date)"
+  EOF
+  user_data_replace_on_change = true
   tags = {
     Name        = "Jenkins-${var.environment}-instance"
     Environment = var.environment

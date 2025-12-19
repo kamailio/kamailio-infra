@@ -12,19 +12,9 @@ resource "aws_iam_access_key" "jenkins" {
 }
 
 resource "aws_iam_role" "jenkins" {
-  name = "jenkins-${var.environment}"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        },
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
+  name                  = "jenkins-${var.environment}"
+  assume_role_policy    = data.aws_iam_policy_document.ec2_assume_role.json
+  force_detach_policies = true
 }
 
 resource "aws_iam_role_policy" "jenkins" {

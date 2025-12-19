@@ -77,19 +77,7 @@ pre-commit install
 
 ## Initial config of letsencrypt
 
-This has to be executed just once when jenkins-master instance gets created
-
-Remove jenkins host from nginx and remove fake letsencrypt certs:
-
-```bash
-ssh admin@jenkins.dev.kamailio.org
-sudo -i
-cd /etc/nginx/sites-enabled
-rm jenkins.dev.kamailio.org.conf
-cd /etc/letsencrypt
-rm -rf live
-```
-
+This has to be executed just once when jenkins-master instance gets created.
 Execute ansible with deb_certbot_create as true:
 
 ```bash
