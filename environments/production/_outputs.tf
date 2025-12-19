@@ -7,3 +7,9 @@ output "jenkins_master_ec2_subnet_id" {
   value       = module.networking.subnet_id
   description = "subnet_id"
 }
+
+
+output "public_key_openssh" {
+  value       = tls_private_key.admin_production.public_key_openssh
+  description = "public_key_openssh"
+}

@@ -68,6 +68,28 @@ PACKER_LOG=1 PACKER_LOG_PATH=/tmp/packer.log packer build -var "environment=dev"
 
 [Protecting Ansible secrets with SOPS](https://docs.ansible.com/ansible/latest/collections/community/sops/docsite/guide.html)
 
+We need the EC2 user keys before generating the AMI. ``global`` environmnet has to be deployed first,
+see [README.tf](README.tf.md) for more details.
+
+```bash
+cd environment/development
+tofu init -upgrade
+tofu plan
+tofu apply -target local_file.admin_development -target local_file.admin_development_pub
+```
+
+Update all.secrets.yml values and encrypt with sops:
+
+- **jenkins_master_jenkins_ssh** <= environment/development/keys/admin_development.pem content
+- **jenkins_master_jenkins_ssh_pub** <= public_key_openssh output
+
+```bash
+cd ami/ansible
+sops --encrypt  inventory_dev/group_vars/all.secret.yml > inventory_dev/group_vars/all.sops.yml
+```
+
+**⚠️ WARNING:** first build slave AMI image and update or set **jenkins_master_ec2_ami** value when building master AMI.
+
 ## [pre-commit](https://pre-commit.com/)
 
 ```bash
