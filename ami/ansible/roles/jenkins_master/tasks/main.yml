@@ -19,6 +19,49 @@
     mode: '0755'
   become: true
 
+- name: jenkins device mount point
+  ansible.builtin.file:
+    path: "{{ __jenkins_master_mount_point }}"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Mount jenkins device by PARTUUID
+  ansible.posix.mount:
+    path: "{{ __jenkins_master_mount_point }}"
+    src: "PARTUUID={{ jenkins_master_device }}"
+    fstype: ext4
+    opts: defaults,noatime
+    passno: 2
+    state: present
+  become: true
+
+- name: jenkins device dirs
+  ansible.builtin.file:
+    path: "{{ __jenkins_master_mount_point }}/{{ item }}"
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - jobs
+    - workspace
+  become: true
+
+- name: Mount and bind a volume
+  ansible.posix.mount:
+    path: "{{ jenkins_master_home }}/{{ item }}"
+    src: "{{ __jenkins_master_mount_point }}/{{ item }}"
+    opts: bind
+    state: present
+    fstype: none
+  loop:
+    - jobs
+    - workspace
+  become: true
+
 - name: repository directory
   ansible.builtin.file:
     path: /srv/repository

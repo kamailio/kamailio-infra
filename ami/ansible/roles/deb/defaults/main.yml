@@ -35,5 +35,6 @@ deb_nginx_vhosts:
 deb_jenkins_war_dir: /var/cache/jenkins/war/
 deb_jenkins_master_home: /var/lib/jenkins/
 deb_repository_basedir: /srv/repository
+deb_repository_device: fake
 deb_apt_cache_allow_ips:
   - 127.0.0.1/32

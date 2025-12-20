@@ -37,3 +37,4 @@ jenkins_master_plugin_imt_url: "{{ __jenkins_master_plugin_imt_base }}/releases/
 jenkins_master_scriptapproval_approvedscripthashes: []
 jenkins_master_ec2_ami_distributions: []
 jenkins_master_apt_cache_servername: "{{ hostvars[inventory_hostname].ip | default(ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0])) }}"
+jenkins_master_device: fake
