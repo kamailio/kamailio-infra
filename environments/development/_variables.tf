@@ -37,6 +37,12 @@ variable "packages_disk_volume" {
   description = "Disk volume size in GB to store packages"
 }
 
+variable "jenkins_disk_volume" {
+  type        = number
+  default     = 25
+  description = "Disk volume size in GB to store jenkins jobs and workspaces"
+}
+
 ## VM details
 variable "ami" {
   type        = string

@@ -17,6 +17,11 @@ resource "aws_instance" "jenkins" {
     echo "remove nginx ${local.jenkins_master_servername} config"
     rm -rf /etc/letsencrypt/live
     echo "removed /etc/letsencrypt/live"
+    if [ -d /mnt/jenkins ]; then
+      chown jenkins:jenkins /mnt/jenkins/jobs
+      chown jenkins:jenkins /mnt/jenkins/workspace
+      echo "*** jenkins perms done ***"
+    fi
     echo "*** remote ansible execution needed ***"
     echo "done user_data at $(date)"
   EOF
@@ -32,6 +37,13 @@ resource "aws_instance" "jenkins" {
 resource "aws_volume_attachment" "package_volume_to_instance" {
   device_name = "/dev/sdf"
   volume_id   = aws_ebs_volume.package_volume.id
+  instance_id = aws_instance.jenkins.id
+  depends_on  = [aws_instance.jenkins]
+}
+
+resource "aws_volume_attachment" "jenkins_volume_to_instance" {
+  device_name = "/dev/sdg"
+  volume_id   = aws_ebs_volume.jenkins_volume.id
   instance_id = aws_instance.jenkins.id
   depends_on  = [aws_instance.jenkins]
 }
