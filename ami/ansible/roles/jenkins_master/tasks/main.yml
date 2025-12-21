@@ -19,6 +19,40 @@
     mode: '0755'
   become: true
 
+- name: repository directory
+  ansible.builtin.file:
+    path: /srv/repository
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Copy private key
+  ansible.builtin.copy:
+    content: "{{ jenkins_master_jenkins_gpg }}"
+    dest: /var/run/jenkins/reprepro.asc
+    owner: "{{ jenkins_master_process_user }}"
+    group: "{{ jenkins_master_process_group }}"
+    mode: '0600'
+  become: true
+
+- name: GPG repository management
+  block:
+    - name: Import Private GPG Key from file
+      gpg:
+        key_file: /var/run/jenkins/reprepro.asc
+        key_type: private
+        state: latest
+
+    - name: Export Public GPG Key
+      ansible.builtin.shell: |
+        gpg --armor --export {{ jenkins_master_jenkins_keyid }} --output /srv/repository/kamailiodebkey.gpg
+      args:
+        creates: /srv/repository/kamailiodebkey.gpg
+  become_user: "{{ jenkins_master_process_user }}"
+  become: true
+
 - name: jenkins device mount point
   ansible.builtin.file:
     path: "{{ __jenkins_master_mount_point }}"
@@ -62,15 +96,6 @@
     - workspace
   become: true
 
-- name: repository directory
-  ansible.builtin.file:
-    path: /srv/repository
-    owner: "{{ jenkins_master_process_user }}"
-    group: "{{ jenkins_master_process_group }}"
-    state: directory
-    mode: '0755'
-  become: true
-
 - name: jenkins id_ssh_rsa.pem
   ansible.builtin.copy:
     dest: "{{ __jenkins_master_sshkey_file }}"
@@ -87,6 +112,16 @@
   loop: "{{ jenkins_master_pkgs + jenkins_master_pkgs_extra }}"
   loop_control:
     loop_var: package
+  become: true
+
+- name: Set KEY_ID at jenkins-debian-glue conf
+  ansible.builtin.lineinfile:
+    dest: /etc/jenkins/debian_glue
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: "{{ item.state | default('present') }}"
+  with_items:
+    - { regexp: '^# KEY_ID=', line: "KEY_ID={{ jenkins_master_jenkins_keyid }}" }
   become: true
 
 - name: download plugin-installation-manager-tool

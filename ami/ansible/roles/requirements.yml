@@ -23,3 +23,5 @@ roles:
     src: git@github.com:linuxmaniac/ansible-role-certbot.git
     version: vseva/nginx
     scm: git
+  - name: compscidr.gpg
+    version: 0.0.12

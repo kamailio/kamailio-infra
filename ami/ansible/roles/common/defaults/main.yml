@@ -8,3 +8,4 @@ common_fail2ban_custom_template: "jail.local.j2"
 common_pkgs:
   - nftables
   - lnav
+  - acl
