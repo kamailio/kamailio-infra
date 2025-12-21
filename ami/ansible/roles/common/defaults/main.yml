@@ -2,5 +2,7 @@
 common_kamailio_deb_jenkins_repo: https://github.com/sipwise/kamailio-deb-jenkins.git
 common_sshkeys:
   - https://github.com/linuxmaniac.keys
+common_ssh_users:
+  - "{{ ansible_user }}"
 common_pkgs:
   - lnav

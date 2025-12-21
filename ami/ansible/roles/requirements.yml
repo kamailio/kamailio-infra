@@ -9,6 +9,8 @@
 #   https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-multiple-roles-from-multiple-files
 
 roles:
+  - name: geerlingguy.security
+    version: "3.0.0"
   - name: geerlingguy.git
     version: "3.0.1"
   - name: geerlingguy.java

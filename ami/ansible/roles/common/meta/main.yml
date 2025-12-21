@@ -6,6 +6,10 @@
 dependencies:
   - role: geerlingguy.git
     become: true
+  - role: geerlingguy.security
+    vars:
+      security_ssh_allowed_users: "{{ common_ssh_users }}"
+    become: true
 
 galaxy_info:
   role_name: common
