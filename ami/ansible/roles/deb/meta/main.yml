@@ -4,6 +4,9 @@
 # https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
 
 dependencies:
+  - role: common
+    vars:
+      common_fail2ban_custom_template: deb_jail.local.j2
   - role: geerlingguy.git
     become: true
   - role: linuxmaniac.certbot

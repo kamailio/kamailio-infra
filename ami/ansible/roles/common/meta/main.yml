@@ -9,6 +9,7 @@ dependencies:
   - role: geerlingguy.security
     vars:
       security_ssh_allowed_users: "{{ common_ssh_users }}"
+      security_fail2ban_custom_configuration_template: "{{ common_fail2ban_custom_template }}"
     become: true
 
 galaxy_info:

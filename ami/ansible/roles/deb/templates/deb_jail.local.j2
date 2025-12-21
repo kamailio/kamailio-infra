@@ -1,0 +1,33 @@
+[sshd]
+enabled = true
+port    = {{ security_ssh_port }}
+filter  = sshd
+{% if ansible_os_family == 'Debian' and ansible_distribution_major_version | int >= 12 %}
+backend = systemd
+{% endif %}
+
+[nginx-http-auth]
+enabled = true
+port    = http,https
+logpath = %(nginx_error_log)s
+
+[nginx-botsearch]
+enabled = true
+port     = http,https
+logpath  = %(nginx_error_log)s
+
+[nginx-bad-request]
+enabled = true
+port    = http,https
+logpath = %(nginx_access_log)s
+
+[nginx-forbidden]
+enabled = true
+port     = http,https
+logpath  = %(nginx_error_log)s
+
+[php-url-fopen]
+enabled = true
+port    = http,https
+logpath = %(nginx_access_log)s
+          %(apache_access_log)s
