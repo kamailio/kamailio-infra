@@ -54,3 +54,11 @@ repos:
     hooks:
       - id: ansible-lint
         files: \.(yaml|yml)$
+
+  - repo: local
+    hooks:
+      - id: sops
+        name: sops
+        entry: encrypt.sh
+        language: script
+        pass_filenames: false
