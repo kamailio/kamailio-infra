@@ -16,6 +16,11 @@ location /userContent {
   sendfile on;
 }
 
+# don't pass known bogus urls
+location ^~ /cgi-bin/ {
+  return 404;
+}
+
 location / {
     proxy_pass        http://127.0.0.1:8080;
     proxy_redirect    http://{{ deb_jenkins_servername }}/ https://{{ deb_jenkins_servername }}/;
