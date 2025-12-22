@@ -8,6 +8,7 @@ function check {
     sops --encrypt "inventory_${env}/group_vars/all.secret.yml" > "inventory_${env}/group_vars/all.sops.yml"
     echo "ami/ansible/inventory_${env}/group_vars/all.sops.yml generated"
   fi
+  rm -f "inventory_${env}/group_vars/all.tmp.secret.yml"
 }
 
 check dev

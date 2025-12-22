@@ -47,7 +47,7 @@
 
     - name: Export Public GPG Key
       ansible.builtin.shell: |
-        gpg --armor --export {{ jenkins_master_jenkins_keyid }} --output /srv/repository/kamailiodebkey.gpg
+        gpg --armor --output /srv/repository/kamailiodebkey.gpg --export {{ jenkins_master_jenkins_keyid }}
       args:
         creates: /srv/repository/kamailiodebkey.gpg
   become_user: "{{ jenkins_master_process_user }}"
