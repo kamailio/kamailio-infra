@@ -103,14 +103,17 @@
     - reload_nginx
   become: true
 
-- name: repository index file from kamailio-deb-jenkins
+- name: repository index file from jenkins-jobs
   ansible.builtin.copy:
-    src: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins/html/index.deb.html"
-    dest: "{{ deb_repository_basedir }}/index.html"
+    src: "{{ ansible_facts.user_dir }}/jenkins-jobs/html/{{ item }}"
+    dest: "{{ deb_repository_basedir }}/{{ item }}"
     owner: root
     group: root
     mode: '0644'
     remote_src: true
+  loop:
+    - index.html
+    - rtpengine.html
   become: true
 
 - name: replace deb_repository_servername from index

@@ -6,7 +6,7 @@
     append: true
     groups:
       - "{{ jenkins_master_process_group }}"
-      - "{{ ansible_user_gid }}" # kamailio-deb-jenkins
+      - "{{ ansible_user_gid }}" # jenkins-jobs access
     state: present
   become: true
 
