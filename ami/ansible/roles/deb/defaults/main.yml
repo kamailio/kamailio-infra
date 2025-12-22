@@ -13,7 +13,7 @@ deb_nginx_vhosts:
   - listen: "443 ssl"
     server_name: "{{ deb_jenkins_servername }}"
     state: "present"
-    access_log: /var/log/nginx/access_{{ deb_jenkins_servername }}.log
+    access_log: /var/log/nginx/{{ deb_jenkins_servername }}_access.log
     extra_parameters: |
       include snippets/jenkins.conf;
       http2 on;
@@ -28,7 +28,7 @@ deb_nginx_vhosts:
   - listen: "80"
     server_name: "{{ deb_repository_servername }}"
     state: "present"
-    access_log: /var/log/nginx/access_{{ deb_repository_servername }}.log
+    access_log: /var/log/nginx/{{ deb_repository_servername }}_access.log
     root: "{{ deb_repository_basedir }}"
     extra_parameters: |
       include snippets/repo.conf;
@@ -36,7 +36,7 @@ deb_nginx_vhosts:
     filename: apt-cacher.conf
     server_name: "{{ deb_apt_cache_servername }}"
     state: "present"
-    access_log: /var/log/nginx/access_apt_cacher.log
+    access_log: /var/log/nginx/apt_cacher_access.log
     extra_parameters: |
       include snippets/apt_cache.conf;
 deb_jenkins_war_dir: /var/cache/jenkins/war/
