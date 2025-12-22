@@ -19,6 +19,7 @@ dependencies:
       jenkins_process_group: "{{ jenkins_master_process_group }}"
     become: true
   - role: compscidr.gpg
+    become: true
 galaxy_info:
   role_name: jenkins_master
   author: Victor Seva
