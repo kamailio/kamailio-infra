@@ -42,7 +42,7 @@
 
 - name: Check if certificate already exists.
   ansible.builtin.stat:
-    path: /etc/letsencrypt/live/{{ deb_jenkins_servername }}/cert.pem
+    path: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}/cert.pem"
   register: deb_letsencrypt_cert
   become: true
 
@@ -78,6 +78,17 @@
         remote_src: true
   become: true
 
+- name: repo snippets
+  ansible.builtin.copy:
+    src: repo_snip.conf
+    dest: /etc/nginx/snippets/repo.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - reload_nginx
+  become: true
+
 - name: nginx snippets
   ansible.builtin.template:
     src: "{{ item }}_snip.j2"
@@ -87,8 +98,25 @@
     mode: "0644"
   loop:
     - jenkins
-    - repo
     - apt_cache
   notify:
     - reload_nginx
+  become: true
+
+- name: repository index file from kamailio-deb-jenkins
+  ansible.builtin.copy:
+    src: "{{ ansible_facts.user_dir }}/kamailio-deb-jenkins/html/index.deb.html"
+    dest: "{{ deb_repository_basedir }}/index.html"
+    owner: root
+    group: root
+    mode: '0644'
+    remote_src: true
+  become: true
+
+- name: replace deb_repository_servername from index
+  ansible.builtin.replace:
+    path: "{{ deb_repository_basedir }}/index.html"
+    regexp: '(\s+)deb\.kamailio\.org(\s+.*)?$'
+    replace: \1{{ deb_repository_servername }}\2
+  when: deb_repository_servername != 'deb.kamailio.org'
   become: true

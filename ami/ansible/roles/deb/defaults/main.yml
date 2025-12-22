@@ -15,7 +15,6 @@ deb_nginx_vhosts:
     state: "present"
     access_log: /var/log/nginx/access_{{ deb_jenkins_servername }}.log
     extra_parameters: |
-      include snippets/repo.conf;
       include snippets/jenkins.conf;
       http2 on;
       ssl_certificate     /etc/letsencrypt/live/{{ deb_jenkins_servername }}/fullchain.pem;
@@ -31,6 +30,8 @@ deb_nginx_vhosts:
     state: "present"
     access_log: /var/log/nginx/access_{{ deb_repository_servername }}.log
     root: "{{ deb_repository_basedir }}"
+    extra_parameters: |
+      include snippets/repo.conf;
   - listen: "80"
     filename: apt-cacher.conf
     server_name: "{{ deb_apt_cache_servername }}"

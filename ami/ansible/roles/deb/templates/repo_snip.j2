@@ -1,5 +1,0 @@
-location /debian {
-  root   {{ deb_repository_basedir }};
-  rewrite ^/debian/(.*) /$1 break;
-  autoindex on;
-}
