@@ -120,3 +120,20 @@
     replace: \1{{ deb_repository_servername }}\2
   when: deb_repository_servername != 'deb.kamailio.org'
   become: true
+
+- name: fail2ban package
+  ansible.builtin.apt:
+    name: fail2ban
+    state: latest
+  become: true
+
+- name: fail2ban rules for nginx
+  ansible.builtin.template:
+    src: deb_jail.conf.j2
+    dest: "/etc/fail2ban/jail.d/nginx.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - reload_fail2ban
+  become: true

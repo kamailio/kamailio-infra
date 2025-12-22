@@ -10,3 +10,9 @@
     name: apt-cacher-ng
     state: restarted
   become: true
+
+- name: reload_fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: reloaded
+  become: true
