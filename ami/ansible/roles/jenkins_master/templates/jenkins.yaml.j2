@@ -46,7 +46,7 @@ credentials:
 jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
+      allowAnonymousRead: {{ jenkins_master_allow_anonymous_read }}
   clouds:
     - amazonEC2:
         name: "ec2"
