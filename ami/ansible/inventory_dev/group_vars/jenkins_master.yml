@@ -10,7 +10,7 @@ jenkins_master_plugins_extra:
   - name: email-ext
   - name: timestamper
 jenkins_master_ec2_region: eu-central-1
-jenkins_master_ec2_ami: ami-025ee562cd5bf24da
+jenkins_master_ec2_ami: ami-0b1b3a09797273dce
 jenkins_master_ec2_security_group: jenkins_slave_development
 jenkins_master_ec2_subnet_id: subnet-005bc72e8c7433d27
 jenkins_master_ec2_ami_distributions: "{{ ec2_ami_distributions }}"
