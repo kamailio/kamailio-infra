@@ -12,6 +12,7 @@ jenkins_master_plugins_extra:
 jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_ami: ami-0b31c2adc9e7be95c
 jenkins_master_ec2_security_group: jenkins_slave_production
+jenkins_master_ec2_subnet_id: subnet-01610fec8f69c035d
 jenkins_master_ec2_ami_distributions: "{{ ec2_ami_distributions }}"
 jenkins_master_scriptapproval_approvedscripthashes:
   - "SHA512:000126cbdca4bc5a1aa7a9a9ffa59a10ac42dca017d3e0b330b64313fed420df44de5d70505f1485a381ce4e33bd1244316b5cb99f997fa69b3754a3d1154c19"
