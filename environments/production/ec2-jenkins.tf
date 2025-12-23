@@ -1,7 +1,3 @@
-locals {
-  jenkins_master_servername = data.sops_file.secrets.data["jenkins_master_servername"]
-}
-
 resource "aws_instance" "jenkins" {
   ami                         = var.ami
   instance_type               = var.instance_type
@@ -13,10 +9,12 @@ resource "aws_instance" "jenkins" {
   user_data                   = <<-EOF
     #!/bin/bash
     echo "starting user_data at $(date)"
-    rm /etc/nginx/sites-enabled/${local.jenkins_master_servername}.conf
-    echo "remove nginx ${local.jenkins_master_servername} config"
+    rm /etc/nginx/sites-enabled/*.conf
+    echo "remove nginx sites config"
     rm -rf /etc/letsencrypt/live
     echo "removed /etc/letsencrypt/live"
+    rm -f /etc/letsencrypt/options-ssl-nginx.conf
+    echo "removed /etc/letsencrypt/options-ssl-nginx.conf"
     if [ -d /mnt/jenkins ]; then
       chown jenkins:jenkins /mnt/jenkins/jobs
       chown jenkins:jenkins /mnt/jenkins/workspace

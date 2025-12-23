@@ -60,22 +60,35 @@
         group: root
         state: directory
         mode: '0755'
-    - name: fake cert
+    - name: fake certs
       ansible.builtin.copy:
         src: /etc/ssl/certs/ssl-cert-snakeoil.pem
-        dest: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}/fullchain.pem"
+        dest: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
         owner: root
         group: root
         mode: '0644'
         remote_src: true
-    - name: fake key
+      loop:
+        - "{{ deb_jenkins_servername }}"
+        - "{{ deb_repository_servername }}"
+    - name: fake keys
       ansible.builtin.copy:
         src: /etc/ssl/private/ssl-cert-snakeoil.key
-        dest: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}/privkey.pem"
+        dest: "/etc/letsencrypt/live/{{ item }}/privkey.pem"
         owner: root
         group: root
         mode: '0644'
         remote_src: true
+      loop:
+        - "{{ deb_jenkins_servername }}"
+        - "{{ deb_repository_servername }}"
+    - name: fake options-ssl-nginx.conf
+      ansible.builtin.file:
+        path: /etc/letsencrypt/options-ssl-nginx.conf
+        owner: root
+        group: root
+        mode: '0644'
+        state: touch
   become: true
 
 - name: repo snippets

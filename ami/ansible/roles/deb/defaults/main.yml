@@ -7,6 +7,9 @@ deb_certbot_certs:
   - name: "{{ deb_jenkins_servername }}"
     domains:
       - "{{ deb_jenkins_servername }}"
+  - name: "{{ deb_repository_servername }}"
+    domains:
+      - "{{ deb_repository_servername }}"
 deb_certbot_create: false
 deb_certbot_testmode: false
 deb_nginx_vhosts:
@@ -19,19 +22,20 @@ deb_nginx_vhosts:
       http2 on;
       ssl_certificate     /etc/letsencrypt/live/{{ deb_jenkins_servername }}/fullchain.pem;
       ssl_certificate_key /etc/letsencrypt/live/{{ deb_jenkins_servername }}/privkey.pem;
-      ssl_session_timeout  10m;
-      ssl_session_cache  shared:SSL:10m;
-      ssl_protocols  SSLv3 TLSv1 TLSv1.1 TLSv1.2;
-      ssl_ciphers  ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:ECDHE-RSA-RC4-SHA:DHE-RSA-CAMELLIA256-SHA:DHE-DSS-CAMELLIA256-SHA:ECDH-ECDSA-AES256-GCM-SHA384:ECDH-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:RC4-SHA:ECDH-ECDSA-AES256-SHA:ECDH-RSA-AES256-SHA:CAMELLIA256-SHA:AES256-SHA;
-      ssl_prefer_server_ciphers   on;
+      include /etc/letsencrypt/options-ssl-nginx.conf;
       client_max_body_size 20M;
-  - listen: "80"
+  - listen: "443 ssl"
     server_name: "{{ deb_repository_servername }}"
     state: "present"
     access_log: /var/log/nginx/{{ deb_repository_servername }}_access.log
     root: "{{ deb_repository_basedir }}"
     extra_parameters: |
+      listen 80;
+      listen [::]:80;
       include snippets/repo.conf;
+      ssl_certificate     /etc/letsencrypt/live/{{ deb_repository_servername }}/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/{{ deb_repository_servername }}/privkey.pem;
+      include /etc/letsencrypt/options-ssl-nginx.conf;
   - listen: "80"
     filename: apt-cacher.conf
     server_name: "{{ deb_apt_cache_servername }}"

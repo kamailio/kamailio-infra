@@ -47,8 +47,3 @@ data "aws_iam_policy_document" "ec2_assume_role" {
     }
   }
 }
-
-data "sops_file" "secrets" {
-  source_file = "../../ami/ansible/inventory_prod/group_vars/all.sops.yml"
-  input_type  = "yaml"
-}
