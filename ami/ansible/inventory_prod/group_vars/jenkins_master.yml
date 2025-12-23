@@ -9,8 +9,10 @@ jenkins_master_plugins_extra:
   - name: build-name-setter
   - name: email-ext
   - name: timestamper
+jenkins_master_environment: production
 jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_ami: ami-0b31c2adc9e7be95c
+jenkins_master_ec2_name: "ec2-{{ jenkins_master_environment }}"
 jenkins_master_ec2_security_group: jenkins_slave_production
 jenkins_master_ec2_subnet_id: subnet-01610fec8f69c035d
 jenkins_master_ec2_ami_distributions: "{{ ec2_ami_distributions }}"

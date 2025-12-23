@@ -12,6 +12,7 @@ jenkins_master_admin_address: "address not configured yet <nobody@nowhere>"
 jenkins_master_executors: 2
 jenkins_master_options: "-Dhudson.plugins.ec2.EC2Cloud.sshPrivateKeyFilePath={{ __jenkins_master_sshkey_file }}"
 jenkins_master_ec2_region: eu-central-1
+jenkins_master_ec2_name: ec2
 jenkins_master_ec2_ami: fake
 jenkins_master_ec2_security_group: jenkins-slave
 jenkins_master_ec2_subnet_id: fake

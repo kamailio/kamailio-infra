@@ -49,7 +49,7 @@ jenkins:
       allowAnonymousRead: {{ jenkins_master_allow_anonymous_read }}
   clouds:
     - amazonEC2:
-        name: "ec2"
+        name: "{{ jenkins_master_ec2_name }}"
         instanceCapStr: 10
         useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "{{ __jenkins_master_sshkey_credential_id }}"
@@ -60,6 +60,11 @@ jenkins:
           - description: "jenkins-debian-glue-slave {{ distri }}"
             type: "t3.large"
             labelString: "slave:{{ distri }}"
+            tags:
+              - name: "Codename"
+                value: "{{ distri }}"
+              - name: "Environment"
+                value: "{{ jenkins_master_environment }}"
             initScript: |
               sudo sed -i 's?#:APT-CACHER:#?export http_proxy=http://{{ jenkins_master_apt_cache_servername }}?' /etc/jenkins/pbuilderrc
               sudo /home/admin/prepare_cowbuilder.sh {{ distri }} $(dpkg --print-architecture) 2>&1 | tee /tmp/initsh.log
