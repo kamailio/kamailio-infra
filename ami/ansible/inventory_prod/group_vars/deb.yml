@@ -1,3 +1,6 @@
 ---
 deb_certbot_admin_email: vseva@sipwork.pro
 deb_jenkins_servername: "{{ jenkins_master_servername }}"
+deb_apt_cache_allow_ips:
+  - 127.0.0.1/32
+  - 172.20.20.0/24
