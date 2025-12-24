@@ -1,3 +1,6 @@
+[DEFAULT]
+ignoreip = 127.0.0.1/8 ::1 {{ deb_apt_cache_allow_ips | join(' ') }}
+
 [nginx-http-auth]
 enabled = true
 port    = http,https
