@@ -95,7 +95,7 @@ jenkins:
   numExecutors: {{ jenkins_master_executors }}
   primaryView:
     all:
-      name: "all"
+      name: "{{ jenkins_master_views_default }}"
   projectNamingStrategy: "standard"
   quietPeriod: 5
   scmCheckoutRetryCount: 0

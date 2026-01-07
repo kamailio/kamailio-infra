@@ -48,3 +48,4 @@ jenkins_master_smtp_password: fake
 jenkins_master_smtp_reply_address: no-reply@fake.server
 jenkins_master_smtp_tls: false
 jenkins_master_views: []
+jenkins_master_views_default: all

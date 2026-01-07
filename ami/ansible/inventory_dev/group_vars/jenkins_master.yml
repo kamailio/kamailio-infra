@@ -125,3 +125,4 @@ jenkins_master_views:
     regex: kamcli.*
   - name: rtpengine
     regex: rtpengine.*
+jenkins_master_views_default: kamailiodev
