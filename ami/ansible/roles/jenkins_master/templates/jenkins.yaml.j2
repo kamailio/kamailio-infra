@@ -223,9 +223,15 @@ unclassified:
     adminAddress: "{{ jenkins_master_admin_address }}"
     url: "https://{{ jenkins_master_servername }}/"
   mailer:
+    authentication:
+      password: "{{ jenkins_master_smtp_password }}"
+      username: "{{ jenkins_master_smtp_username }}"
     charset: "UTF-8"
+    replyToAddress: "{{ jenkins_master_smtp_reply_address }}"
+    smtpHost: "{{ jenkins_master_smtp_host }}"
+    smtpPort: "{{ jenkins_master_smtp_port }}"
     useSsl: false
-    useTls: false
+    useTls: {{ jenkins_master_smtp_tls }}
   myView: {
     }
   nodeProperties: {

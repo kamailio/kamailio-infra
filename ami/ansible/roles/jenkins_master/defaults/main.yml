@@ -41,3 +41,9 @@ jenkins_master_scriptapproval_approvedscripthashes: []
 jenkins_master_ec2_ami_distributions: []
 jenkins_master_apt_cache_servername: "{{ hostvars[inventory_hostname].ip | default(ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0])) }}"
 jenkins_master_device: fake
+jenkins_master_smtp_host: smtp.fake.server
+jenkins_master_smtp_port: 25
+jenkins_master_smtp_username: fakeusr
+jenkins_master_smtp_password: fake
+jenkins_master_smtp_reply_address: no-reply@fake.server
+jenkins_master_smtp_tls: false

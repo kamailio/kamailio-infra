@@ -1,5 +1,8 @@
 ---
-jenkins_master_admin_address: "<vseva@sipwork.pro>"
+jenkins_master_admin_address: "<jenkins-dev@kamailio.org>"
+jenkins_master_smtp_port: 587
+jenkins_master_smtp_reply_address: no-reply@jenkins.kamailio.org
+jenkins_master_smtp_tls: true
 jenkins_master_executors: 5
 jenkins_master_plugins_extra:
   - name: workflow-aggregator
