@@ -54,6 +54,7 @@ ansible-galaxy role install -f -r roles/requirements.yml
 cd ami
 packer init .
 packer build -var "environment=dev" slave.pkr.hcl
+packer build -var "environment=dev" -var 'arch=arm64' -var 'instance_type=m6g.large' slave.pkr.hcl
 ```
 
 ### debug

@@ -21,6 +21,11 @@ variable "arch" {
   default = "amd64"
 }
 
+variable "instance_type" {
+  type    = string
+  default = "t3.large"
+}
+
 variable "region" {
   type    = string
   default = "eu-central-1"
@@ -33,7 +38,7 @@ variable "root_volume_size_gb" {
 
 source "amazon-ebs" "debian" {
   ami_name      = "kamailio-infra-slave-{{timestamp}}"
-  instance_type = "t3.large"
+  instance_type = var.instance_type
   region        = var.region
   tags          = {
     Environment = var.environment
