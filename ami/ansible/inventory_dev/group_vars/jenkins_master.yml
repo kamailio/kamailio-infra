@@ -20,6 +20,7 @@ jenkins_master_ec2_security_group: jenkins_slave_development
 jenkins_master_ec2_subnet_id: subnet-005bc72e8c7433d27
 jenkins_master_ec2_ami_distributions: "{{ ec2_ami_distributions }}"
 jenkins_master_allow_anonymous_read: false
+## This configs depends on jenkins-jobs repository values
 jenkins_master_scriptapproval_approvedscripthashes:
   - "SHA512:000126cbdca4bc5a1aa7a9a9ffa59a10ac42dca017d3e0b330b64313fed420df44de5d70505f1485a381ce4e33bd1244316b5cb99f997fa69b3754a3d1154c19"
   - "SHA512:00cf1b3103718d3d135fb8c2bcca62475255933fc2b429d8d9ff1382d1d9cb010161760b39167ebad7c927a80c16c62ca7f9c97c4544c5eb4c334e901c20eaab"
@@ -111,3 +112,16 @@ jenkins_master_scriptapproval_approvedscripthashes:
   - "SHA512:ed5d1f9b11ef401889fdb06bf01734400d7b8a0dc28f330b14bded2e8761c826d6e7f0d115ff1951050aff09c62c0383cb309ea56da7a6b52a1c1e42315ddfa5"
   - "SHA512:f1202a8d7fe894305ce3622cf974a5ed66e2688533afeb32d93feaf2c73595911a878b0ad7432dfb1d42819de22deacda89d34628ba4a9fdf309cd14127d0449"
   - "SHA512:f19806614626ea0a3b9a0812af72b691ad57578f143cab8b8571bdc2dd1d978c22fe0e49a5155fb0dbda54302a954917e4a9f6d0806a9774aa5066cbf067f2a5"
+jenkins_master_views:
+  - name: kamailio57
+    regex: kamailio57.*
+  - name: kamailio58
+    regex: kamailio58.*
+  - name: kamailio60
+    regex: kamailio60.*
+  - name: kamailiodev
+    regex: kamailiodev.*
+  - name: kamcli
+    regex: kamcli.*
+  - name: rtpengine
+    regex: rtpengine.*

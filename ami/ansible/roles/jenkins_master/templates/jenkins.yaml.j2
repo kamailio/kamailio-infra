@@ -125,6 +125,20 @@ jenkins:
   views:
   - all:
       name: "all"
+{% for item in jenkins_master_views %}
+  - list:
+      columns:
+      - "status"
+      - "weather"
+      - "jobName"
+      - "lastSuccess"
+      - "lastFailure"
+      - "lastDuration"
+      - "buildButton"
+      description: "{{ item.description|default('') }}"
+      includeRegex: "{{ item.regex }}"
+      name: "{{ item.name }}"
+{% endfor %}
   viewsTabBar: "standard"
 globalCredentialsConfiguration:
   configuration:
