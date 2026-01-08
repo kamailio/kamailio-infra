@@ -13,7 +13,6 @@ x-ec2_anchor: &ec2_anchor
   tenancy: Default
   useEphemeralDevices: false
   zone: "{{ jenkins_master_ec2_region }}"
-  ami: "{{ jenkins_master_ec2_ami }}"
   securityGroups: "{{ jenkins_master_ec2_security_group }}"
   subnetId: "{{ jenkins_master_ec2_subnet_id }}"
   remoteFS: "/home/admin"
@@ -51,25 +50,30 @@ jenkins:
   clouds:
     - amazonEC2:
         name: "{{ jenkins_master_ec2_name }}"
-        instanceCapStr: 10
+        instanceCapStr: {{ jenkins_master_ec2_instance_cap }}
         useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "{{ __jenkins_master_sshkey_credential_id }}"
         noDelayProvisioning: true
         region: "{{ jenkins_master_ec2_region }}"
         templates:
 {% for distri in jenkins_master_ec2_ami_distributions %}
-          - description: "jenkins-debian-glue-slave {{ distri }}"
-            type: "t3.large"
-            labelString: "slave:{{ distri }}"
+{%   for ami in jenkins_master_ec2_ami %}
+          - description: "jdg-slave {{ distri }}_{{ ami.architecture }}"
+            type: "{{ ami.type }}"
+            labelString: "slave:{{ distri }}:{{ ami.architecture }}"
             tags:
               - name: "Codename"
                 value: "{{ distri }}"
               - name: "Environment"
                 value: "{{ jenkins_master_environment }}"
+              - name: "Architecture"
+                value: "{{ ami.architecture }}"
             initScript: |
               sudo sed -i 's?#:APT-CACHER:#?export http_proxy=http://{{ jenkins_master_apt_cache_servername }}?' /etc/jenkins/pbuilderrc
               sudo /home/admin/prepare_cowbuilder.sh {{ distri }} $(dpkg --print-architecture) 2>&1 | tee /tmp/initsh.log
+            ami: "{{ ami.id }}"
             <<: *ec2_anchor
+{%   endfor %}
 {% endfor %}
   crumbIssuer:
     standard:

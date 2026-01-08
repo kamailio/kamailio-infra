@@ -14,6 +14,7 @@ jenkins_master_options: "-Dhudson.plugins.ec2.EC2Cloud.sshPrivateKeyFilePath={{ 
 jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_name: ec2
 jenkins_master_ec2_ami: fake
+jenkins_master_ec2_instance_cap: 20
 jenkins_master_ec2_security_group: jenkins-slave
 jenkins_master_ec2_subnet_id: fake
 jenkins_master_nodes: []
