@@ -20,7 +20,7 @@ jenkins_master_ec2_ami:
     id: ami-0b1b3a09797273dce
   - architecture: arm64
     type: m6g.large
-    id: ami-08e30a6ecc3b981fb
+    id: ami-03ddfeb0b4a5c49cf
 jenkins_master_ec2_name: "ec2-{{ jenkins_master_environment }}"
 jenkins_master_ec2_security_group: jenkins_slave_development
 jenkins_master_ec2_subnet_id: subnet-005bc72e8c7433d27
