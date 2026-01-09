@@ -59,5 +59,10 @@ case "$architecture" in
     MIRRORSITE=$(echo "${MIRRORSITE}" | sed 's#archive.ubuntu.com/ubuntu#ports.ubuntu.com#')
     OTHERMIRROR=$(echo "${OTHERMIRROR}" | sed 's#archive.ubuntu.com/ubuntu#ports.ubuntu.com#')
     OTHERMIRROR=$(echo "${OTHERMIRROR}" | sed 's#security.ubuntu.com/ubuntu#ports.ubuntu.com#')
+    # fix for ports.ubuntu.com 302 to https via apt-cacher-ng
+    if [ -n "${http_proxy}" ] ; then
+      MIRRORSITE=$(echo "${MIRRORSITE}" | sed 's#http://#http://HTTPS///#g')
+      OTHERMIRROR=$(echo "${OTHERMIRROR}" | sed 's#http://#http://HTTPS///#g')
+    fi
   ;;
 esac
