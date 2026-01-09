@@ -56,3 +56,9 @@
     - jjb/jenkins-jobs-wrapper
   changed_when: true
   become: true
+
+- name: Set a hostname
+  ansible.builtin.hostname:
+    name: "{{ __common_hostname }}"
+  when: __common_hostname | regex_search('.*\.kamailio.org$') is defined
+  become: yes
