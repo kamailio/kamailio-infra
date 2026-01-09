@@ -2,52 +2,52 @@
 # distribution specific configuration
 case "$distribution" in
   xenial|bionic|focal|jammy|noble)
-    MIRRORSITE="http://archive.ubuntu.com/ubuntu/"
+    MIRRORSITE="https://archive.ubuntu.com/ubuntu/"
     # we need key id 40976EAF437D05B5
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
     # cowdancer is in universe
     COMPONENTS="main universe"
     # security and updates
-    OTHERMIRROR="deb http://archive.ubuntu.com/ubuntu/ ${distribution}-updates main universe|deb-src http://security.ubuntu.com/ubuntu ${distribution}-security main universe"
+    OTHERMIRROR="deb https://archive.ubuntu.com/ubuntu/ ${distribution}-updates main universe|deb-src https://security.ubuntu.com/ubuntu ${distribution}-security main universe"
     # package install speedup
     EXTRAPACKAGES="eatmydata"
     export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}libeatmydata.so"
     ;;
   trusty)
     # lacks eatmydata package, so explicitly configure it
-    MIRRORSITE="http://archive.ubuntu.com/ubuntu/"
+    MIRRORSITE="https://archive.ubuntu.com/ubuntu/"
     # we need key id 40976EAF437D05B5
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
     # cowdancer is in universe
     COMPONENTS="main universe"
     # security and updates
-    OTHERMIRROR="deb http://archive.ubuntu.com/ubuntu/ ${distribution}-updates main universe|deb-src http://security.ubuntu.com/ubuntu ${distribution}-security main universe"
+    OTHERMIRROR="deb https://archive.ubuntu.com/ubuntu/ ${distribution}-updates main universe|deb-src https://security.ubuntu.com/ubuntu ${distribution}-security main universe"
     # ensure it's unset
     unset LD_PRELOAD
     ;;
   precise)
     # lacks eatmydata package, so explicitly configure it
     # also EOL nowadays, so need other mirror
-    MIRRORSITE="http://old-releases.ubuntu.com/ubuntu/"
+    MIRRORSITE="https://old-releases.ubuntu.com/ubuntu/"
     # we need key id 40976EAF437D05B5
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg")
     # cowdancer is in universe
     COMPONENTS="main universe"
     # security and updates
-    OTHERMIRROR="deb http://old-releases.ubuntu.com/ubuntu/ ${distribution}-updates main universe|deb-src http://old-releases.ubuntu.com/ubuntu ${distribution}-security main universe"
+    OTHERMIRROR="deb https://old-releases.ubuntu.com/ubuntu/ ${distribution}-updates main universe|deb-src https://old-releases.ubuntu.com/ubuntu ${distribution}-security main universe"
     # ensure it's unset
     unset LD_PRELOAD
     ;;
   bullseye|bookworm|trixie)
-    MIRRORSITE="http://deb.debian.org/debian"
+    MIRRORSITE="https://deb.debian.org/debian"
     # security and updates
-    OTHERMIRROR="deb http://security.debian.org/debian-security ${distribution}-security main"
+    OTHERMIRROR="deb https://security.debian.org/debian-security ${distribution}-security main"
     # package install speedup
     EXTRAPACKAGES="eatmydata"
     export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}libeatmydata.so"
     ;;
   *)
-    MIRRORSITE="http://deb.debian.org/debian"
+    MIRRORSITE="https://deb.debian.org/debian"
     # package install speedup
     EXTRAPACKAGES="eatmydata"
     export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}libeatmydata.so"
@@ -61,3 +61,7 @@ case "$architecture" in
     OTHERMIRROR=$(echo "${OTHERMIRROR}" | sed 's#security.ubuntu.com/ubuntu#ports.ubuntu.com#')
   ;;
 esac
+
+# fix for SSL/TLS repositories via apt-cacher-ng
+MIRRORSITE=$(echo "${MIRRORSITE}" | sed 's#https://#http://HTTPS///#g')
+OTHERMIRROR=$(echo "${OTHERMIRROR}" | sed 's#https://#http://HTTPS///#g')
