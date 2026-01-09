@@ -1,3 +1,4 @@
 ---
 __common_gh_base: https://raw.githubusercontent.com/linuxmaniac/dotfiles/master/
 __common_jenkins_jobs_cfg_dir: "{{ ansible_facts.user_dir }}/jenkins-jobs"
+__common_hostname: "{{ inventory_hostname | lower }}"
