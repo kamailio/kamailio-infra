@@ -39,6 +39,13 @@ credentials:
             directEntry:
               privateKey: "${readFile:{{ __jenkins_master_sshkey_file }}}"
           username: "admin"
+      - usernamePassword:
+          description: "ses SMTP dev"
+          id: "ses-smtp-id"
+          password: "{{ jenkins_master_smtp_password }}"
+          scope: GLOBAL
+          username: "{{ jenkins_master_smtp_username }}"
+          usernameSecret: true
       domain: {
         }
   user: {
@@ -217,8 +224,11 @@ unclassified:
     defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
     defaultTriggerIds:
     - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
-    mailAccount: {
-      }
+    mailAccount:
+      credentialsId: "ses-smtp-id"
+      smtpHost: "{{ jenkins_master_smtp_host }}"
+      smtpPort: "{{ jenkins_master_smtp_port }}"
+      useTls: {{ jenkins_master_smtp_tls }}
     maxAttachmentSize: -1
     maxAttachmentSizeMb: -1
     precedenceBulk: false
