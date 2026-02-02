@@ -7,7 +7,7 @@ dependencies:
   - role: common
   - role: geerlingguy.java
     become: true
-  - role: geerlingguy.jenkins
+  - role: linuxmaniac.jenkins
     vars:
       jenkins_home: "{{ jenkins_master_home }}"
       jenkins_admin_username: "{{ jenkins_master_admin_username }}"
