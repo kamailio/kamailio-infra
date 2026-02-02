@@ -45,6 +45,22 @@
         key_type: private
         state: latest
 
+    - name: GNUPG Home dir
+      ansible.builtin.file:
+        path: "{{ jenkins_master_home }}/.gnupg"
+        owner: "{{ jenkins_master_process_user }}"
+        group: "{{ jenkins_master_process_group }}"
+        state: directory
+        mode: '0700'
+
+    - name: GNUPG config
+      ansible.builtin.copy:
+        src: gpg.conf
+        dest: "{{ jenkins_master_home }}/.gnupg/gpg.conf"
+        owner: "{{ jenkins_master_process_user }}"
+        group: "{{ jenkins_master_process_group }}"
+        mode: '0600'
+
     - name: Export Public GPG Key
       ansible.builtin.shell: |
         gpg --armor --output /srv/repository/kamailiodebkey.gpg --export {{ jenkins_master_jenkins_keyid }}
