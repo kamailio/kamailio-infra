@@ -1,0 +1,6 @@
+#!/bin/bash
+DEST=/var/www/html/stats
+NAME={{ item.name }}
+LOG={{ item.access_log }}
+
+goaccess "${LOG}" --log-format=COMBINED -a -o "${DEST}/${NAME}.html"

@@ -1,0 +1,3 @@
+#!/bin/sh
+# execute goaccess scripts only
+run-parts --regex goaccess /etc/logrotate.d/httpd-prerotate

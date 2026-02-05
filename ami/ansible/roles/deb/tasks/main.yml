@@ -9,16 +9,11 @@
     state: present
   become: true
 
-- name: cron package
+- name: Install packages
   ansible.builtin.apt:
-    name: cron
+    name: "{{ item }}"
     state: latest
-  become: true
-
-- name: Install apt-cacher-ng package
-  ansible.builtin.apt:
-    name: apt-cacher-ng
-    state: latest
+  loop: "{{ deb_pkgs }}"
   become: true
 
 - name: Set config
@@ -137,12 +132,6 @@
   when: deb_repository_servername != 'deb.kamailio.org'
   become: true
 
-- name: fail2ban package
-  ansible.builtin.apt:
-    name: fail2ban
-    state: latest
-  become: true
-
 - name: fail2ban rules for nginx
   ansible.builtin.template:
     src: deb_jail.conf.j2
@@ -152,4 +141,59 @@
     mode: "0644"
   notify:
     - reload_fail2ban
+  become: true
+
+- name: goaccess config
+  ansible.builtin.replace:
+    path: /etc/goaccess/goaccess.conf
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - regexp: '^#time-format %H:%M:%S$'
+      replace: "time-format %H:%M:%S"
+    - regexp: '^#date-format %d/%b/%Y$'
+      replace: "date-format %d/%b/%Y"
+  become: true
+
+- name: goaccess log-format config
+  ansible.builtin.lineinfile:
+    path: /etc/goaccess/goaccess.conf
+    line: 'log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u"'
+    insertafter: '^# NCSA Combined Log Format$'
+    state: present
+  become: true
+
+- name: reports dirs
+  ansible.builtin.file:
+    path: /var/www/html/stats
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: httpd-prerotate dir
+  ansible.builtin.file:
+    path: /etc/logrotate.d/httpd-prerotate
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: httpd-prerotate goaccess script
+  ansible.builtin.template:
+    src: update_goaccess.sh.j2
+    dest: "/etc/logrotate.d/httpd-prerotate/{{ '%02d' | format(idx) }}_goaccess_{{ item.name | replace('.','_') }}"
+    owner: root
+    group: root
+    mode: "0774"
+  loop: "{{ deb_goaccess_domains }}"
+  loop_control:
+    index_var: idx
+  become: true
+
+- name: cron.hourly goaccess scripts
+  ansible.builtin.copy:
+    src: cron_goaccess
+    dest: /etc/cron.hourly/goaccess
+    owner: root
+    group: root
+    mode: "0774"
   become: true

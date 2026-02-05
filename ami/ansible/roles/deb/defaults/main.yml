@@ -1,4 +1,10 @@
 ---
+deb_pkgs:
+  - cron
+  - logrotate
+  - apt-cacher-ng
+  - fail2ban
+  - goaccess
 deb_certbot_admin_email: email@example.com
 deb_jenkins_servername: jenkins.fake
 deb_repository_servername: deb.jenkins.fake
@@ -49,3 +55,8 @@ deb_repository_basedir: /srv/repository
 deb_repository_device: fake
 deb_apt_cache_allow_ips:
   - 127.0.0.1/32
+deb_goaccess_domains:
+  - name: "{{ deb_jenkins_servername }}"
+    access_log: "/var/log/nginx/{{ deb_jenkins_servername }}_access.log"
+  - name: "{{ deb_repository_servername }}"
+    access_log: "/var/log/nginx/{{ deb_repository_servername }}_access.log"
