@@ -86,17 +86,6 @@
         state: touch
   become: true
 
-- name: repo snippets
-  ansible.builtin.copy:
-    src: repo_snip.conf
-    dest: /etc/nginx/snippets/repo.conf
-    owner: root
-    group: root
-    mode: "0644"
-  notify:
-    - reload_nginx
-  become: true
-
 - name: nginx snippets
   ansible.builtin.template:
     src: "{{ item }}_snip.j2"
@@ -107,6 +96,7 @@
   loop:
     - jenkins
     - apt_cache
+    - repo
   notify:
     - reload_nginx
   become: true
@@ -143,6 +133,32 @@
     - reload_fail2ban
   become: true
 
+- name: goaccess base dirs
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: goaccess database dir
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}/db"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  become: true
+
+- name: goaccess database dir per domain
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}/db/{{ item.name | replace('.','_') }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  loop: "{{ deb_goaccess_domains }}"
+  become: true
+
 - name: goaccess config
   ansible.builtin.replace:
     path: /etc/goaccess/goaccess.conf
@@ -165,7 +181,7 @@
 
 - name: reports dirs
   ansible.builtin.file:
-    path: /var/www/html/stats
+    path: "{{ deb_goaccess_dir }}/stats"
     state: directory
     mode: '0755'
   become: true
@@ -174,6 +190,8 @@
   ansible.builtin.file:
     path: /etc/logrotate.d/httpd-prerotate
     state: directory
+    owner: root
+    group: root
     mode: '0755'
   become: true
 

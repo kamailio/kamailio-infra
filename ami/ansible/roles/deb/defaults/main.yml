@@ -60,3 +60,4 @@ deb_goaccess_domains:
     access_log: "/var/log/nginx/{{ deb_jenkins_servername }}_access.log"
   - name: "{{ deb_repository_servername }}"
     access_log: "/var/log/nginx/{{ deb_repository_servername }}_access.log"
+deb_goaccess_dir: /srv/goaccess
