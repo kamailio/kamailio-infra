@@ -34,6 +34,8 @@
   ansible.builtin.git: # noqa: latest[git] partial-become
     repo: "{{ common_kamailio_deb_jenkins_repo }}"
     dest: "{{ __common_jenkins_jobs_cfg_dir }}"
+  tags:
+    - html
 
 - name: perms for group access
   ansible.builtin.file:

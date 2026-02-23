@@ -101,18 +101,55 @@
     - reload_nginx
   become: true
 
-- name: repository index file from jenkins-jobs
-  ansible.builtin.copy:
-    src: "{{ ansible_facts.user_dir }}/jenkins-jobs/html/{{ item }}"
-    dest: "{{ deb_repository_basedir }}/{{ item }}"
-    owner: root
-    group: root
-    mode: '0644'
-    remote_src: true
-  loop:
-    - index.html
-    - rtpengine.html
+- name: html from jenkins-jobs
+  block:
+    - name: repository index files from jenkins-jobs
+      ansible.builtin.copy:
+        src: "{{ ansible_facts.user_dir }}/jenkins-jobs/html/{{ item }}"
+        dest: "{{ deb_repository_basedir }}/{{ item }}"
+        owner: root
+        group: root
+        mode: '0644'
+        remote_src: true
+      loop:
+        - index.html
+        - rtpengine.html
+
+    - name: repository html files from jenkins-jobs
+      ansible.builtin.copy:
+        src: "{{ ansible_facts.user_dir }}/jenkins-jobs/html/{{ item }}"
+        dest: "{{ deb_repository_basedir }}"
+        owner: root
+        group: root
+        mode: '0755'
+        remote_src: true
+      loop:
+        - js
+        - css
+        - img
+
+    - name: Ensure checkout dirs 0755
+      ansible.builtin.command: find -type d ! -perm 0755 -exec chmod 0755 {} \;
+      args:
+        chdir: "{{ deb_repository_basedir }}/{{ item }}"
+      loop:
+        - js
+        - css
+        - img
+      changed_when: true
+
+    - name: Ensure files 0644
+      ansible.builtin.command: find . -type f ! -perm 0644 -exec chmod 0644 {} \;
+      args:
+        chdir: "{{ deb_repository_basedir }}/{{ item }}"
+      loop:
+        - js
+        - css
+        - img
+      changed_when: true
   become: true
+  tags:
+    - html
 
 - name: replace deb_repository_servername from index
   ansible.builtin.replace:
