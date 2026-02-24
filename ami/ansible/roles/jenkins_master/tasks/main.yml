@@ -182,6 +182,8 @@
     jenkins_password: "{{ jenkins_master_admin_password }}"
     type: "token"
   register: jenkins_master_token_result
+  tags:
+    - jjb
 
 - name: jjb config
   ansible.builtin.template:
@@ -192,4 +194,6 @@
     mode: '0640'
   vars:
     jenkins_master_admin_token: "{{ jenkins_master_token_result.token }}"
+  tags:
+    - jjb
   become: true
