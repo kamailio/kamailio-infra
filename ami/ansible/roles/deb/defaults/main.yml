@@ -24,6 +24,8 @@ deb_nginx_vhosts:
     state: "present"
     access_log: /var/log/nginx/{{ deb_jenkins_servername }}_access.log
     extra_parameters: |
+      include snippets/block-ai-robots.conf;
+      include snippets/block-ai-bots.conf;
       include snippets/norepo.conf;
       include snippets/jenkins.conf;
       http2 on;
@@ -39,6 +41,8 @@ deb_nginx_vhosts:
     extra_parameters: |
       listen 80;
       listen [::]:80;
+      include snippets/block-ai-robots.conf;
+      include snippets/block-ai-bots.conf;
       include snippets/repo.conf;
       ssl_certificate     /etc/letsencrypt/live/{{ deb_repository_servername }}/fullchain.pem;
       ssl_certificate_key /etc/letsencrypt/live/{{ deb_repository_servername }}/privkey.pem;

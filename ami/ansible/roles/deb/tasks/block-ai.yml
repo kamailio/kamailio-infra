@@ -1,0 +1,30 @@
+---
+- name: nginx file snippet
+  ansible.builtin.copy:
+    src: block-ai-bots.conf
+    dest: /etc/nginx/snippets/block-ai-bots.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - reload_nginx
+
+- name: nginx templates snippets
+  ansible.builtin.template:
+    src: "{{ item }}_snip.j2"
+    dest: "/etc/nginx/snippets/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - block-ai-robots
+  notify:
+    - reload_nginx
+
+- name: robots.txt
+  ansible.builtin.copy:
+    src: robots.txt
+    dest: "{{ deb_repository_basedir }}/robots.txt"
+    owner: root
+    group: root
+    mode: "0644"

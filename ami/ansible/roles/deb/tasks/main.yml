@@ -102,6 +102,10 @@
     - reload_nginx
   become: true
 
+- name: Block AI
+  ansible.builtin.import_tasks: block-ai.yml
+  become: true
+
 - name: html from jenkins-jobs
   block:
     - name: repository index files from jenkins-jobs
