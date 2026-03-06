@@ -128,6 +128,8 @@
   loop: "{{ jenkins_master_pkgs + jenkins_master_pkgs_extra }}"
   loop_control:
     loop_var: package
+  tags:
+    - config-as-code
   become: true
 
 - name: Set KEY_ID at jenkins-debian-glue conf
@@ -148,6 +150,8 @@
     owner: "{{ jenkins_master_process_user }}"
     group: "{{ jenkins_master_process_group }}"
     mode: '0440'
+  tags:
+    - config-as-code
   become: true
 
 - name: plugins config
@@ -159,6 +163,8 @@
     mode: '0640'
   notify:
     - install plugins
+  tags:
+    - config-as-code
   become: true
 
 - name: config-as-code config
@@ -170,10 +176,14 @@
     mode: '0640'
   notify:
     - restart jenkins
+  tags:
+    - config-as-code
   become: true
 
 - name: Force handler to run now (e.g., for a dependent task)
   ansible.builtin.meta: flush_handlers
+  tags:
+    - config-as-code
 
 - name: Generate admin token
   community.general.jenkins_credential:
@@ -183,6 +193,7 @@
     type: "token"
   register: jenkins_master_token_result
   tags:
+    - config-as-code
     - jjb
 
 - name: jjb config
@@ -195,5 +206,6 @@
   vars:
     jenkins_master_admin_token: "{{ jenkins_master_token_result.token }}"
   tags:
+    - config-as-code
     - jjb
   become: true
