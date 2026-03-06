@@ -1,10 +1,10 @@
 #!/bin/bash
 DEST={{ deb_goaccess_dir }}/stats
-DB={{ deb_goaccess_dir }}/db/{{ item.name | replace('.','_') }}
-NAME={{ item.name }}
-LOG=${LOG:-{{ item.access_log }}}
+DB={{ deb_goaccess_dir }}/db/{{ domain | replace('.','_') }}
+NAME={{ domain }}
+LOG=${LOG:-{{ access_log }}}
 
 goaccess ${LOG} --log-format=COMBINED \
   --db-path ${DB} \
   --restore --persist \
-  -a -o "${DEST}/${NAME}.html"
+  -a -o "${DEST}/${NAME}/full.html"

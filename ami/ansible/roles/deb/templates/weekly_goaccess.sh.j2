@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+DOMAIN={{ domain }}
+LOG={{ access_log }}
+
+# Check if running as root
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+dates=(
+  "$(date '+%d\/%b\/%Y' -d '1 day ago')"
+  "$(date '+%d\/%b\/%Y' -d '2 days ago')"
+  "$(date '+%d\/%b\/%Y' -d '3 days ago')"
+  "$(date '+%d\/%b\/%Y' -d '4 days ago')"
+  "$(date '+%d\/%b\/%Y' -d '5 days ago')"
+  "$(date '+%d\/%b\/%Y' -d '6 days ago')"
+  "$(date '+%d\/%b\/%Y' -d '7 days ago')"
+)
+
+# join string
+dates_regex=$(IFS="|" ; echo "${dates[*]}")
+
+echo "==> Reporting process started on $(date)"
+
+report_folder="{{ deb_goaccess_dir }}/stats/${DOMAIN}"
+file_path="$report_folder/$(date '+%Y-%m-%d' -d '1 day ago').html"
+
+mkdir -p "${report_folder}"
+
+zcat -f ${LOG}* |
+  grep -Ei $dates_regex |
+  goaccess - --log-format=COMBINED -a -o $file_path
+
+echo "Finished at $(date)"

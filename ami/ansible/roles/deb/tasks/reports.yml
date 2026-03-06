@@ -1,0 +1,81 @@
+---
+- name: goaccess base dirs
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: goaccess database dir
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}/db"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: goaccess database dir per domain
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}/db/{{ item.name | replace('.', '_') }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  loop: "{{ deb_goaccess_domains }}"
+
+- name: goaccess config
+  ansible.builtin.replace:
+    path: /etc/goaccess/goaccess.conf
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - regexp: '^#time-format %H:%M:%S$'
+      replace: "time-format %H:%M:%S"
+    - regexp: '^#date-format %d/%b/%Y$'
+      replace: "date-format %d/%b/%Y"
+
+- name: goaccess log-format config
+  ansible.builtin.lineinfile:
+    path: /etc/goaccess/goaccess.conf
+    line: 'log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u"'
+    insertafter: '^# NCSA Combined Log Format$'
+    state: present
+
+- name: reports dirs
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}/stats"
+    state: directory
+    mode: '0755'
+
+- name: reports weekly scripts dir
+  ansible.builtin.file:
+    path: "{{ deb_goaccess_dir }}/weekly"
+    state: directory
+    mode: '0755'
+
+- name: httpd-prerotate dir
+  ansible.builtin.file:
+    path: /etc/logrotate.d/httpd-prerotate
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: cron per domain
+  ansible.builtin.include_tasks: cron.yml
+  loop: "{{ deb_goaccess_domains }}"
+  loop_control:
+    loop_var: data
+    index_var: data_idx
+
+- name: cron goaccess scripts
+  ansible.builtin.template:
+    src: cron_goaccess.j2
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "0774"
+  loop:
+    - dest: /etc/cron.hourly/goaccess
+      dir: /etc/logrotate.d/httpd-prerotate
+    - dest: /etc/cron.weekly/goaccess
+      dir: "{{ deb_goaccess_dir }}/weekly"

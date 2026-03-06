@@ -1,0 +1,22 @@
+---
+- name: httpd-prerotate goaccess script
+  ansible.builtin.template:
+    src: update_goaccess.sh.j2
+    dest: "/etc/logrotate.d/httpd-prerotate/{{ '%02d' | format(data_idx) }}_goaccess_{{ data.name | replace('.', '_') }}"
+    owner: root
+    group: root
+    mode: "0774"
+  vars:
+    domain: "{{ data.name }}"
+    access_log: "{{ data.access_log }}"
+
+- name: weekly goaccess script
+  ansible.builtin.template:
+    src: weekly_goaccess.sh.j2
+    dest: "{{ deb_goaccess_dir }}/weekly/{{ '%02d' | format(data_idx) }}_goaccess_{{ data.name | replace('.', '_') }}"
+    owner: root
+    group: root
+    mode: "0774"
+  vars:
+    domain: "{{ data.name }}"
+    access_log: "{{ data.access_log }}"
