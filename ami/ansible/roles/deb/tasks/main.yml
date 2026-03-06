@@ -97,6 +97,7 @@
     - jenkins
     - apt_cache
     - repo
+    - norepo
   notify:
     - reload_nginx
   become: true

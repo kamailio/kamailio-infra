@@ -1,0 +1,10 @@
+# redirect old links to the proper domain
+location ^/kamailiodebkey.gpg$ {
+  return 301 $scheme://{{ deb_repository_servername }}$request_uri;
+}
+
+{% for reg in deb_redirect_regex -%}
+location ~ {{ reg }} {
+  return 301 $scheme://{{ deb_repository_servername }}$request_uri;
+}
+{% endfor -%}

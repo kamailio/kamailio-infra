@@ -24,6 +24,7 @@ deb_nginx_vhosts:
     state: "present"
     access_log: /var/log/nginx/{{ deb_jenkins_servername }}_access.log
     extra_parameters: |
+      include snippets/norepo.conf;
       include snippets/jenkins.conf;
       http2 on;
       ssl_certificate     /etc/letsencrypt/live/{{ deb_jenkins_servername }}/fullchain.pem;
@@ -61,3 +62,7 @@ deb_goaccess_domains:
   - name: "{{ deb_repository_servername }}"
     access_log: "/var/log/nginx/{{ deb_repository_servername }}_access.log"
 deb_goaccess_dir: /srv/goaccess
+deb_redirect_regex:
+  - ^/kamailio.+/
+  - ^/kamcli.+/
+  - ^/rtpengine.+/
