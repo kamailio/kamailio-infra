@@ -33,13 +33,13 @@ variable "cidr_block" {
 ## Storage/Volume
 variable "packages_disk_volume" {
   type        = number
-  default     = 15
+  default     = 35
   description = "Disk volume size in GB to store packages"
 }
 
 variable "jenkins_disk_volume" {
   type        = number
-  default     = 25
+  default     = 50
   description = "Disk volume size in GB to store jenkins jobs and workspaces"
 }
 
