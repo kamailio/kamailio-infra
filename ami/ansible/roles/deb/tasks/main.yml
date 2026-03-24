@@ -48,13 +48,16 @@
       ansible.builtin.apt:
         name: ssl-cert
         state: latest
-    - name: certbot live dir
+    - name: certbot live dirs
       ansible.builtin.file:
-        path: "/etc/letsencrypt/live/{{ deb_jenkins_servername }}"
+        path: "/etc/letsencrypt/live/{{ item }}"
         owner: root
         group: root
         state: directory
         mode: '0755'
+      loop:
+        - "{{ deb_jenkins_servername }}"
+        - "{{ deb_repository_servername }}"
     - name: fake certs
       ansible.builtin.copy:
         src: /etc/ssl/certs/ssl-cert-snakeoil.pem
