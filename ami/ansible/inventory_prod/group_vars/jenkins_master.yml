@@ -16,7 +16,7 @@ jenkins_master_environment: production
 jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_ami:
   - architecture: amd64
-    type: t3.large
+    type: t3.xlarge
     id: ami-06a4847a9be66891d
   - architecture: arm64
     type: m6g.large
