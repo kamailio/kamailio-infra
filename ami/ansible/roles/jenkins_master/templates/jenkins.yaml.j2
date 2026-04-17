@@ -82,9 +82,7 @@ jenkins:
             <<: *ec2_anchor
 {%   endfor %}
 {% endfor %}
-  crumbIssuer:
-    standard:
-      excludeClientIPFromCrumb: false
+  crumbIssuer: "standard"
   disableRememberMe: false
   labelAtoms:
   - name: "built-in"
