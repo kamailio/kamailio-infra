@@ -17,10 +17,10 @@ jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_ami:
   - architecture: amd64
     type: t3.xlarge
-    id: ami-06a4847a9be66891d
+    id: ami-04ab37e939f03d1e4
   - architecture: arm64
     type: m6g.large
-    id: ami-0920ea0a4ab50091e
+    id: ami-0bf34cbb41ef84b13
 jenkins_master_ec2_name: "ec2-{{ jenkins_master_environment }}"
 jenkins_master_ec2_security_group: jenkins_slave_production
 jenkins_master_ec2_subnet_id: subnet-01610fec8f69c035d
