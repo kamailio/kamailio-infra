@@ -46,7 +46,7 @@ variable "jenkins_disk_volume" {
 ## VM details
 variable "ami" {
   type        = string
-  default     = "ami-07b03f258d17ce5c0"
+  default     = "ami-0c126b747a6622692"
   description = "AMI to use"
 }
 variable "instance_type" {
