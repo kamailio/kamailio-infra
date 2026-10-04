@@ -1,4 +1,9 @@
 ---
+- name: reload_daemon
+  ansible.builtin.service:
+    daemon_reload: true
+  become: true
+
 - name: install plugins
   ansible.builtin.command: "java -jar jenkins-plugin-manager.jar --plugin-download-directory={{ jenkins_master_home }}/plugins/ --plugin-file={{ jenkins_master_home }}/plugins.yaml"
   args:

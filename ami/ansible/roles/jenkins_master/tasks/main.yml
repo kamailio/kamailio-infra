@@ -132,6 +132,31 @@
     - config-as-code
   become: true
 
+- name: Be sure jenkins.service.d dir exists
+  ansible.builtin.file:
+    path: "/etc/systemd/system/jenkins.service.d"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+  tags:
+    - oom
+  become: true
+
+- name: Override jenkins systemd unit for OOM config
+  ansible.builtin.template:
+    src: oom.conf.j2
+    dest: /etc/systemd/system/jenkins.service.d/oom.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - reload_daemon
+    - restart jenkins
+  tags:
+    - oom
+  become: true
+
 - name: Set KEY_ID at jenkins-debian-glue conf
   ansible.builtin.lineinfile:
     dest: /etc/jenkins/debian_glue

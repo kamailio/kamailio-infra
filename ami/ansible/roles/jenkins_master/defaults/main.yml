@@ -27,6 +27,7 @@ jenkins_master_pkgs_extra:
   - vim
   - zsh
   - tmux
+  - systemd-oomd
 jenkins_master_plugins_default:
   - name: configuration-as-code
     version: latest
@@ -50,3 +51,8 @@ jenkins_master_smtp_reply_address: no-reply@fake.server
 jenkins_master_smtp_tls: false
 jenkins_master_views: []
 jenkins_master_views_default: all
+jenkins_master_oom_memory_high: 512M
+jenkins_master_oom_memory_max: 1G
+jenkins_master_oom_memory_swap_max: 0
+jenkins_master_oom_cpu_quota: 90%
+jenkins_master_oom_tasks_max: 512

@@ -1,0 +1,12 @@
+[Unit]
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+MemoryHigh={{ jenkins_master_oom_memory_high }}
+MemoryMax={{ jenkins_master_oom_memory_max }}
+MemorySwapMax={{ jenkins_master_oom_memory_swap_max | default('0') }}
+CPUQuota={{ jenkins_master_oom_cpu_quota }}
+TasksMax={{ jenkins_master_oom_tasks_max }}
+Restart=on-failure
+RestartSec=5s
