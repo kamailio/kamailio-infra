@@ -184,3 +184,6 @@ jenkins_master_views:
   - name: rtpenginedev
     regex: rtpengine-nightly.*
 jenkins_master_views_default: kamailiodev
+jenkins_master_oom_memory_high: 1G
+jenkins_master_oom_memory_max: 2G
+jenkins_master_oom_tasks_max: 1024
