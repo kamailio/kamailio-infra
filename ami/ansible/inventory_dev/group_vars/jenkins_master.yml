@@ -12,6 +12,7 @@ jenkins_master_plugins_extra:
   - name: build-name-setter
   - name: email-ext
   - name: timestamper
+  - name: pollscm
 jenkins_master_environment: development
 jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_ami:
