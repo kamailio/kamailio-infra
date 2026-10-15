@@ -14,6 +14,7 @@ jenkins_master_plugins_extra:
   - name: timestamper
   - name: pollscm
   - name: build-timeout
+  - name: pipeline-utility-steps
 jenkins_master_environment: production
 jenkins_master_ec2_region: eu-central-1
 jenkins_master_ec2_ami:
