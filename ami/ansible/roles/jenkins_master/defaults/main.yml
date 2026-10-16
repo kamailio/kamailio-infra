@@ -56,3 +56,8 @@ jenkins_master_oom_memory_max: 1G
 jenkins_master_oom_memory_swap_max: 0
 jenkins_master_oom_cpu_quota: 90%
 jenkins_master_oom_tasks_max: 512
+jenkins_master_loggers:
+  - name: "EC2Cloud"
+    logs:
+      - level: "INFO"
+        name: "hudson.plugins.ec2.EC2Cloud"

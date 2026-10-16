@@ -86,8 +86,21 @@ jenkins:
   disableRememberMe: false
   labelAtoms:
   - name: "built-in"
+{% if jenkins_master_loggers | length > 0 %}
+  log:
+    recorders:
+      - loggers:
+{%   for logger in jenkins_master_loggers %}
+{%     for log in logger.logs %}
+        - level: "{{ log.level }}"
+          name: "{{ log.name }}"
+{%     endfor %}
+        name: "{{ logger.name }}"
+{%   endfor %}
+{% else %}
   log: {
     }
+{% endif %}
   markupFormatter: "plainText"
   mode: NORMAL
   nodeMonitors:
