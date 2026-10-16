@@ -26,3 +26,11 @@ enabled = true
 port    = http,https
 logpath = %(nginx_access_log)s
           %(apache_access_log)s
+
+[nginx-403]
+enabled   = true
+port      = http,https
+logpath   = %(nginx_access_log)s
+maxretry  = 6
+findtime  = 300
+bantime   = 3600

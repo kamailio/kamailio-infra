@@ -169,6 +169,21 @@
   when: deb_repository_servername != 'deb.kamailio.org'
   become: true
 
+- name: fail2ban filters
+  ansible.builtin.copy:
+    src: "{{ item }}.conf"
+    dest: "/etc/fail2ban/filter.d/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - nginx-403
+  notify:
+    - reload_fail2ban
+  tags:
+    - fail2ban
+  become: true
+
 - name: fail2ban rules for nginx
   ansible.builtin.template:
     src: deb_jail.conf.j2
@@ -178,6 +193,8 @@
     mode: "0644"
   notify:
     - reload_fail2ban
+  tags:
+    - fail2ban
   become: true
 
 - name: Tasks for goaccess reports
