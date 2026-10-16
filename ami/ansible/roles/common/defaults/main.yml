@@ -9,3 +9,5 @@ common_pkgs:
   - nftables
   - lnav
   - acl
+  - util-linux-extra
+common_timezone: Europe/Madrid

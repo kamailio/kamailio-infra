@@ -8,6 +8,12 @@
     loop_var: package
   become: true
 
+- name: Set timezone and hardware clock to UTC
+  community.general.timezone:
+    name: "{{ common_timezone }}"
+    hwclock: UTC
+  become: true
+
 - name: ssh authorized_keys
   ansible.posix.authorized_key:
     user: "{{ ansible_user }}"
