@@ -107,6 +107,8 @@
 
 - name: Block AI
   ansible.builtin.import_tasks: block-ai.yml
+  tags:
+    - robots
   become: true
 
 - name: html from jenkins-jobs

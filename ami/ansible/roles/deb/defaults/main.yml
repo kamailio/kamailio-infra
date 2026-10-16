@@ -70,3 +70,5 @@ deb_redirect_regex:
   - ^/kamailio.+/
   - ^/kamcli.+/
   - ^/rtpengine.+/
+deb_robots_homedir: /srv/ai.robots.txt
+deb_robots_version: v2.0
