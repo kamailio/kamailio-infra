@@ -14,7 +14,7 @@ roles:
   - name: geerlingguy.git
     version: "3.0.1"
   - name: geerlingguy.java
-    version: "2.5.2"
+    version: "2.6.1"
   - name: linuxmaniac.jenkins
     src: git@github.com:linuxmaniac/ansible-role-jenkins.git
     scm: git
