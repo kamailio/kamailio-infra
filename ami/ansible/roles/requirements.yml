@@ -19,7 +19,7 @@ roles:
     src: git@github.com:linuxmaniac/ansible-role-jenkins.git
     scm: git
   - name: geerlingguy.nginx
-    version: "3.2.0"
+    version: "3.3.1"
   - name: linuxmaniac.certbot
     src: git@github.com:linuxmaniac/ansible-role-certbot.git
     version: vseva/nginx
