@@ -3,3 +3,7 @@ jenkins.kamailio.org ansible_user=admin
 
 [jenkins_master]
 jenkins.kamailio.org ansible_user=admin
+
+[runners]
+docker0.kamailio.dev ansible_user=root
+docker1.kamailio.dev ansible_user=root

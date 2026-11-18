@@ -1,0 +1,64 @@
+---
+- name: Ensure packages are installed
+  ansible.builtin.apt:
+    name: "{{ package }}"
+    state: latest
+  loop: "{{ runner_pkgs + runner_extra_pkgs | default([]) }}"
+  loop_control:
+    loop_var: package
+  become: yes
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes
+  become: yes
+
+- name: Checkout multi-runners repository
+  ansible.builtin.git:
+    repo: "{{ runner_repo_url }}"
+    version: "{{ runner_repo_version }}"
+    dest: "{{ runner_repo_dest }}"
+  become: yes
+
+- name: multi-runners env
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ runner_repo_dest }}/.env"
+    owner: root
+    group: root
+    mode: '0600'
+  become: yes
+
+- name: multi-runners download and install dependencies
+  ansible.builtin.shell: |
+    ./mr.bash download
+  args:
+    chdir: "{{ runner_repo_dest }}"
+  register: __runner_download_out
+  changed_when: not __runner_download_out.stdout.startswith('/tmp/actions-runner-linux-x64')
+  become: true
+
+- name: geerlingguy.docker role
+  ansible.builtin.include_role:
+    name: geerlingguy.docker
+    apply:
+      become: yes
+
+- name: weekly cronjob docker-prune
+  ansible.builtin.copy:
+    src: docker-prune
+    dest: /etc/cron.weekly/docker-prune
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+- name: multi-runners add self-hosted
+  ansible.builtin.shell: |
+    ./mr.bash add --org kamailio --labels {{ runner_labels }} --group {{ runner_group }}
+  args:
+    chdir: "{{ runner_repo_dest }}"
+    creates: /home/runner-0
+  become: true
+  tags:
+    - add_runner

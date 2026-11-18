@@ -13,6 +13,8 @@ roles:
     version: "3.0.2"
   - name: geerlingguy.git
     version: "3.0.1"
+  - name: geerlingguy.docker
+    version: "7.4.7"
   - name: geerlingguy.java
     version: "2.6.1"
   - name: linuxmaniac.jenkins

@@ -1,0 +1,16 @@
+runner_pkgs:
+  - psmisc
+  - vim
+  - lnav
+  - git
+  - btop
+  - ripgrep
+  - jq
+  - curl
+  - gpg
+  - sudo
+runner_repo_url: https://github.com/vbem/multi-runners
+runner_repo_version: v1.3.0
+runner_repo_dest: /opt/multi-runners
+runner_labels: docker
+runner_group: docker
