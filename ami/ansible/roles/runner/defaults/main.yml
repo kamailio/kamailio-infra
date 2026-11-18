@@ -12,5 +12,5 @@ runner_pkgs:
 runner_repo_url: https://github.com/vbem/multi-runners
 runner_repo_version: v1.3.0
 runner_repo_dest: /opt/multi-runners
-runner_labels: docker
-runner_group: docker
+runner_org: kamailio
+runner_agents: []

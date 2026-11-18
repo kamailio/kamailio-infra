@@ -55,10 +55,11 @@
 
 - name: multi-runners add self-hosted
   ansible.builtin.shell: |
-    ./mr.bash add --org kamailio --labels {{ runner_labels }} --group {{ runner_group }}
+    ./mr.bash add --org {{ runner_org }} --labels {{ item.labels }} --group {{ item.group }}
   args:
     chdir: "{{ runner_repo_dest }}"
-    creates: /home/runner-0
+    creates: "/home/runner-{{ ansible_loop.index0 }}"
+  loop: "{{ runner_agents }}"
   become: true
   tags:
     - add_runner
