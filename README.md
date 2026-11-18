@@ -109,3 +109,13 @@ cd ami/ansible
 workon ansible
 ansible-playbook  --inventory=inventory_dev/inventory main.yml --extra-vars='{"deb_certbot_create":true}'
 ```
+
+## GitHub selfhosted runners
+
+Managed using [multi-runners](https://github.com/vbem/multi-runners) wrapper
+
+```bash
+cd ami/ansible
+workon ansible
+ansible-playbook  --inventory=inventory_prod/inventory runners.yml
+```

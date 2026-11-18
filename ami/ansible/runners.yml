@@ -1,0 +1,14 @@
+- name: common tasks
+  hosts: all
+  tasks:
+    - name: apt-get upgrade
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: yes
+      become: true
+
+- name: runners
+  hosts: runners
+  gather_facts: true
+  roles:
+    - { role: runner }

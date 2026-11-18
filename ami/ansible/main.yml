@@ -26,9 +26,3 @@
   gather_facts: true
   roles:
     - { role: jenkins_slave }
-
-- name: runners
-  hosts: runners
-  gather_facts: true
-  roles:
-    - { role: runner }
