@@ -175,6 +175,8 @@
     owner: "{{ jenkins_master_process_user }}"
     group: "{{ jenkins_master_process_group }}"
     mode: '0440'
+  notify:
+    - install plugins
   tags:
     - config-as-code
   become: true
