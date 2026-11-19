@@ -1,7 +1,7 @@
 ---
 runner_agents:
-  - labels: codeql
-    group: codeql,docker
+  - labels: codeql,docker
+    group: codeql
   - labels: docker
     group: docker
   - labels: docker
