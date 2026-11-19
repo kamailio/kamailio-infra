@@ -9,6 +9,8 @@ runner_pkgs:
   - curl
   - gpg
   - sudo
+  - python3-pip
+  - python3-venv
 runner_repo_url: https://github.com/vbem/multi-runners
 runner_repo_version: v1.3.0
 runner_repo_dest: /opt/multi-runners
