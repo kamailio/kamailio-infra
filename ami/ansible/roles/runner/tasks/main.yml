@@ -60,6 +60,8 @@
     chdir: "{{ runner_repo_dest }}"
     creates: "/home/runner-{{ ansible_loop.index0 }}"
   loop: "{{ runner_agents }}"
+  loop_control:
+    extended: true
   become: true
   tags:
     - add_runner
